@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P0起動パック バッチ質問リスト v0.1 — JMA PMI Playbook</title>
+<style>
+  :root{
+    --crimson:#8B1A10; --crimson-dark:#6B1208; --crimson-light:#B85248;
+    --off-white:#FAF6F1; --paper:#FDFBF7;
+    --yellow:#FFE96B; --yellow-soft:#FFF4B8;
+    --green-accent:#2D6A4F; --green-soft:#D8E8E0;
+    --blue-accent:#1E5A8A; --blue-soft:#E3EEF7;
+    --ink:#1A1A1A; --ink-soft:#4A4A4A;
+    --line:#D9D2C7; --line-soft:#ECE6DC;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:15px;}
+  body{
+    font-family:"Yu Gothic","游ゴシック","YuGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+    background:var(--off-white); color:var(--ink); line-height:1.7; margin:0; padding:0;
+    font-feature-settings:"palt";
+  }
+  .container{
+    max-width:860px; margin:0 auto; padding:40px 22px 72px;
+    background:var(--paper); min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.04);
+  }
+  .doc-header{border-bottom:3px solid var(--crimson); padding-bottom:22px; margin-bottom:26px;}
+  .doc-meta{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-family:"Cambria","Georgia",serif; font-size:0.76rem; color:var(--ink-soft);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:14px;
+  }
+  .doc-meta .badge{background:var(--crimson); color:var(--paper); padding:3px 11px;}
+  .doc-meta .version{background:var(--ink); color:var(--paper); padding:3px 10px;}
+  h1{
+    font-family:"Cambria","Georgia","Yu Mincho","游明朝",serif;
+    font-size:1.6rem; font-weight:600; line-height:1.35; margin:0 0 6px;
+  }
+  h1 .accent{color:var(--crimson);}
+  .doc-subtitle{font-size:0.88rem; color:var(--ink-soft); margin:0;}
+
+  .summary-box{
+    background:linear-gradient(180deg,var(--off-white) 0%,var(--paper) 100%);
+    border:1px solid var(--line); border-top:4px solid var(--crimson);
+    padding:20px 22px; margin-bottom:28px;
+  }
+  .summary-box .label{
+    font-family:"Cambria","Georgia",serif; font-size:0.74rem; letter-spacing:0.15em;
+    color:var(--crimson); text-transform:uppercase; margin-bottom:8px;
+  }
+  .summary-box p{font-size:0.92rem; margin:0 0 10px;}
+  .summary-box p:last-child{margin-bottom:0;}
+  .summary-box mark{background:var(--yellow); padding:1px 5px; font-weight:700;}
+
+  h2{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.22rem; font-weight:600;
+    border-left:5px solid var(--crimson); padding-left:12px; margin:36px 0 6px;
+  }
+  h2 .sec-num{font-family:"Cambria","Georgia",serif; color:var(--crimson); margin-right:8px;}
+  .sec-lead{font-size:0.84rem; color:var(--ink-soft); margin:0 0 14px; padding-left:17px;}
+
+  .table-wrap{overflow-x:auto; margin:12px 0; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; font-size:0.82rem; background:var(--paper);}
+  th,td{padding:9px 11px; text-align:left; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  th{background:var(--crimson); color:var(--paper); font-weight:600; font-size:0.78rem; white-space:nowrap;}
+  td.qid{
+    font-family:"Cambria","Georgia",serif; font-weight:700; color:var(--crimson);
+    white-space:nowrap; background:var(--off-white); border-right:1px solid var(--line);
+  }
+  td.qtext{min-width:220px; font-weight:600;}
+  td.qtext .hint{display:block; font-weight:400; font-size:0.76rem; color:var(--ink-soft); margin-top:2px;}
+  td.fmt{white-space:nowrap;}
+  td.dest{min-width:170px;}
+  tbody tr:hover{background:var(--off-white);}
+  tr.branch-b td{background:var(--blue-soft);}
+  tr.branch-c td{background:var(--green-soft);}
+  tr.branch-bc td{background:var(--yellow-soft);}
+
+  .pill{display:inline-block; padding:1px 8px; border-radius:10px; font-size:0.72rem; font-weight:700; white-space:nowrap; line-height:1.6;}
+  .pill-must{background:var(--crimson); color:var(--paper);}
+  .pill-auto{background:var(--green-soft); color:var(--green-accent);}
+  .pill-cond{background:var(--blue-soft); color:var(--blue-accent);}
+
+  .legend{
+    display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px;
+    font-size:0.8rem; color:var(--ink-soft); align-items:center;
+  }
+
+  .note{
+    background:var(--blue-soft); border-left:4px solid var(--blue-accent);
+    padding:12px 16px; margin:16px 0; font-size:0.84rem;
+  }
+  .note strong{color:var(--blue-accent);}
+  .warn{
+    background:var(--yellow-soft); border-left:4px solid #C49B00;
+    padding:12px 16px; margin:16px 0; font-size:0.84rem;
+  }
+  .warn strong{color:#8A6B00;}
+
+  footer{
+    margin-top:44px; padding-top:18px; border-top:1px solid var(--line);
+    font-family:"Cambria","Georgia",serif; font-size:0.76rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+  @media print{.container{box-shadow:none; padding:20px;} section{page-break-inside:avoid;}}
+  @media (max-width:640px){.container{padding:28px 14px 56px;} h1{font-size:1.36rem;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">JMA PMI Playbook — P0起動パック</span>
+      <span class="version">v0.1 叩き台</span>
+    </div>
+    <h1>バッチ質問リスト <span class="accent">完全版</span></h1>
+    <p class="doc-subtitle">スキル実行フローStep 2で提示する質問の全量。質問 → 生成資料×欄のマッピング付き。</p>
+  </header>
+
+  <div class="summary-box">
+    <div class="label">Design Rules</div>
+    <p><strong>① 資料から抽出できるものは聞かない。</strong>棚卸し（Step 1）で添付資料から自動抽出を試み、埋まった質問はスキップ。バッチ質問には<mark>未充足分のみ</mark>を出す。</p>
+    <p><strong>② Q1（院長シナリオ）が全体を分岐させる。</strong>A=継続／B=段階移行／C=退場→後任。B・C限定の質問は該当時のみ提示。</p>
+    <p><strong>③ 未回答でも止めない。</strong>未回答項目は「■要確認：Q番号」プレースホルダで生成を完遂する。</p>
+    <p style="font-size:0.82rem;color:var(--ink-soft);">生成対象9点：②財務ベースライン／③′コーポレート連携シート／④キーパーソンマップ／⑤紹介元マップ／⑥D1台本＋説明資料／⑦面談シート／⑧FAQ2種／⑭キックオフパック／⑮医師リソース計画</p>
+  </div>
+
+  <div class="legend">
+    凡例：
+    <span class="pill pill-must">必ず聞く</span>＝判断系・資料に存在しない
+    <span class="pill pill-auto">抽出優先</span>＝資料にあれば聞かない
+    <span class="pill pill-cond">条件付き</span>＝シナリオ・状況により提示
+    ／ 行の色：<span style="background:var(--blue-soft);padding:1px 8px;">B限定</span>
+    <span style="background:var(--green-soft);padding:1px 8px;">C限定</span>
+    <span style="background:var(--yellow-soft);padding:1px 8px;">B・C限定</span>
+  </div>
+
+  <!-- S1 -->
+  <section>
+    <h2><span class="sec-num">S1</span>案件基本・分岐変数（8問）</h2>
+    <p class="sec-lead">全生成物の骨格を決める。ここだけは全問回答が望ましい。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Q</th><th>質問</th><th>形式</th><th>種別</th><th>埋まる先</th><th>未回答時</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="qid">Q1</td>
+            <td class="qtext">院長シナリオはどれか<span class="hint">A=継続（残留・経営のみ移管）／B=段階移行（稼働縮小→非常勤化）／C=退場→後任確保</span></td>
+            <td class="fmt">選択 A/B/C</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">全資料の分岐スイッチ（特に⑥⑧⑭⑮）</td>
+            <td>回答必須（分岐不能のため）</td>
+          </tr>
+          <tr>
+            <td class="qid">Q2</td>
+            <td class="qtext">承継方式<span class="hint">法人ごと承継／資産譲渡（→新規指定・空白期間リスクあり）</span></td>
+            <td class="fmt">選択</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">③′期日カレンダー／⑥「名義変更」説明／⑧FAQ両方</td>
+            <td>③′に■要確認、⑥⑧は両論併記</td>
+          </tr>
+          <tr>
+            <td class="qid">Q3</td>
+            <td class="qtext">クロージング日／指定切替日（判明分）</td>
+            <td class="fmt">日付×2</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">③′カウントダウン／⑭スケジュール／全資料の日付基準</td>
+            <td>相対表記（D1起算）で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q4</td>
+            <td class="qtext">スタッフへの告知状況<span class="hint">未告知／院長から一部に済／全員告知済</span></td>
+            <td class="fmt">選択</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑥台本の冒頭構成（初報 or 補足説明）／④面談トーン</td>
+            <td>「未告知」前提で生成（安全側）</td>
+          </tr>
+          <tr>
+            <td class="qid">Q5</td>
+            <td class="qtext">患者への告知方針<span class="hint">掲示のみ／掲示＋口頭／告知しない（体制変更が軽微な場合）</span></td>
+            <td class="fmt">選択＋自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑧患者向けFAQ／⑥説明資料の患者対応欄</td>
+            <td>掲示＋口頭前提で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q6</td>
+            <td class="qtext">4象限判定（目線合わせカード実施済みなら結果を貼付）<span class="hint">オペ稼働×集患の象限。未実施なら手術の稼働状況だけ回答</span></td>
+            <td class="fmt">象限 or 自由</td>
+            <td><span class="pill pill-cond">条件付き</span></td>
+            <td class="dest">⑭100日プランの厚み調整／⑮の優先度</td>
+            <td>標準形（重み付けなし）で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q7</td>
+            <td class="qtext">現地入り体制<span class="hint">誰が・週何日・いつからいつまで（W1–2高頻度→テーパリング原則の当てはめ）</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑥台本「自分の役割と滞在計画」／⑭会議体の曜日設計</td>
+            <td>■要確認（台本の核のため優先確認）</td>
+          </tr>
+          <tr>
+            <td class="qid">Q8</td>
+            <td class="qtext">キックオフMTGの候補日と出席可能者</td>
+            <td class="fmt">日付＋自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑭表紙・アジェンダ</td>
+            <td>日程仮置きで生成</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S2 -->
+  <section>
+    <h2><span class="sec-num">S2</span>院長・医師リソース（7問）</h2>
+    <p class="sec-lead">⑮医師リソース計画と⑥⑭のシナリオ別文面を駆動。B・C限定質問を含む。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Q</th><th>質問</th><th>形式</th><th>種別</th><th>埋まる先</th><th>未回答時</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="qid">Q9</td>
+            <td class="qtext">現院長の現在の稼働（週何日・何コマ・手術の有無）</td>
+            <td class="fmt">数値＋自由</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">⑮現状欄／②人件費検証</td>
+            <td>■要確認</td>
+          </tr>
+          <tr class="branch-bc">
+            <td class="qid">Q10</td>
+            <td class="qtext">【B・C】移行スケジュール<span class="hint">B：週5→週3等の縮小ステップと時期／C：最終勤務日と引継ぎ診療期間</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-cond">条件付き</span></td>
+            <td class="dest">⑮移行計画／⑥「先生はどうなるか」／⑧両FAQ</td>
+            <td>⑥⑧は「体制は段階的に移行」の抽象表現で生成＋■要確認</td>
+          </tr>
+          <tr class="branch-bc">
+            <td class="qid">Q11</td>
+            <td class="qtext">【B・C】前院長の協力可能範囲<span class="hint">D1アナウンス同席／紹介元への同伴挨拶／患者告知の名義使用／引継ぎ診療。それぞれ可否</span></td>
+            <td class="fmt">選択×4</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑭依頼事項リスト（前院長欄）／⑥台本の登壇構成</td>
+            <td>依頼事項に「要交渉」フラグ付きで全件掲載</td>
+          </tr>
+          <tr class="branch-c">
+            <td class="qid">Q12</td>
+            <td class="qtext">【C】後任（管理医師）の目処<span class="hint">確定／候補あり／未定。確定なら氏名・専門・着任日</span></td>
+            <td class="fmt">選択＋自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑮管理医師欄（実質CP）／⑥⑧「新しい先生」記述</td>
+            <td>⑮に赤アラート行、⑥⑧は名前を出さない汎用文面</td>
+          </tr>
+          <tr>
+            <td class="qid">Q13</td>
+            <td class="qtext">非常勤医師の現状（人数・曜日・継続意向）</td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">⑮枠×埋め手マップ／④面談対象への追加判断</td>
+            <td>■要確認</td>
+          </tr>
+          <tr>
+            <td class="qid">Q14</td>
+            <td class="qtext">執刀体制<span class="hint">執刀医の確保状況（現院長継続／外部確保済／未定）と想定枠数</span></td>
+            <td class="fmt">選択＋数値</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑮執刀枠／⑭M2起動計画の記述</td>
+            <td>⑮に「執刀体制未定」を課題行として明記</td>
+          </tr>
+          <tr>
+            <td class="qid">Q15</td>
+            <td class="qtext">埋めたい診療枠の要求<span class="hint">曜日×コマで「ここを非常勤で埋めたい」があれば</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-cond">条件付き</span></td>
+            <td class="dest">⑮要求定義欄（本社ソーシングへの発注書になる）</td>
+            <td>現状維持前提で生成</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S3 -->
+  <section>
+    <h2><span class="sec-num">S3</span>人・スタッフ（6問）</h2>
+    <p class="sec-lead">④キーパーソンマップと⑦面談シートを駆動。名簿があれば大半は自動抽出。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Q</th><th>質問</th><th>形式</th><th>種別</th><th>埋まる先</th><th>未回答時</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="qid">Q16</td>
+            <td class="qtext">スタッフ構成（職種×人数×雇用形態）</td>
+            <td class="fmt">表形式</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">④名簿部／⑦役割別シートの部数／②人件費検証</td>
+            <td>職種テンプレ（看護師/ORT/受付/事務）の空表で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q17</td>
+            <td class="qtext">キーパーソンは誰か（売り手・仲介・DDでの心証）<span class="hint">「この人が辞めたら回らない」人物と理由</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">④リスク仮説×面談順（先頭に配置）</td>
+            <td>資格保有者（ORT・看護師）を機械的に上位配置</td>
+          </tr>
+          <tr>
+            <td class="qid">Q18</td>
+            <td class="qtext">既知の退職リスク・不満情報<span class="hint">DD過程で得た噂レベルも含む</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">④リスク初期値（赤/黄/青）／⑦当該者の追加質問</td>
+            <td>全員「黄」スタートで生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q19</td>
+            <td class="qtext">売り手がスタッフに約束していること<span class="hint">「給与は下がらない」「全員継続」等の口約束を含む</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑥台本（矛盾防止）／⑧スタッフFAQ／⑭やらないこと宣言</td>
+            <td>⑥に「■要確認：既存の約束との整合」注記</td>
+          </tr>
+          <tr>
+            <td class="qid">Q20</td>
+            <td class="qtext">面談の物理条件<span class="hint">個室の有無・診療中に抜けられる時間帯</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-cond">条件付き</span></td>
+            <td class="dest">④面談日程枠の設計</td>
+            <td>昼休み・診療後の標準枠で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q21</td>
+            <td class="qtext">給与計算・シフト作成の現担当者<span class="hint">院長夫人等の親族が担っているケースの検出</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">④隠れキーパーソン行／③′コーポレート引継ぎ項目</td>
+            <td>■要確認（親族運営リスクとして注記）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S4 -->
+  <section>
+    <h2><span class="sec-num">S4</span>患者フロー・紹介元（5問）</h2>
+    <p class="sec-lead">⑤紹介元マップと⑧患者FAQを駆動。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Q</th><th>質問</th><th>形式</th><th>種別</th><th>埋まる先</th><th>未回答時</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="qid">Q22</td>
+            <td class="qtext">主要紹介元（上位5件：名称×推定件数×窓口人物）</td>
+            <td class="fmt">表形式</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">⑤本体／⑭W1依頼事項（同伴挨拶先）</td>
+            <td>空表＋「D1後1週間で現場ヒアリング」タスク化</td>
+          </tr>
+          <tr>
+            <td class="qid">Q23</td>
+            <td class="qtext">単一依存の有無<span class="hint">紹介の過半が1箇所に依存しているか</span></td>
+            <td class="fmt">選択＋自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑤赤アラート行／⑭W1クリティカルタスク昇格</td>
+            <td>「不明＝依存ありとみなす」保守的設定で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q24</td>
+            <td class="qtext">予約制度の現状<span class="hint">完全ウォークイン／予約優先／完全予約。ツール名も</span></td>
+            <td class="fmt">選択＋自由</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">⑧患者FAQ（予約欄）／⑭初手候補の材料</td>
+            <td>■要確認</td>
+          </tr>
+          <tr>
+            <td class="qid">Q25</td>
+            <td class="qtext">EMR・レセコンのシステム名<span class="hint">承継後の継続可否も分かれば</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">⑧患者FAQ（カルテ引継ぎ）／③′アカウント引継ぎ項目</td>
+            <td>■要確認</td>
+          </tr>
+          <tr>
+            <td class="qid">Q26</td>
+            <td class="qtext">診療時間・診療内容の変更予定<span class="hint">D1以降100日以内に変える予定があるもののみ</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">⑧両FAQ「変わること」／⑥対照表（変わる/変わらない）</td>
+            <td>「変更なし」前提で生成（安全側）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S5 -->
+  <section>
+    <h2><span class="sec-num">S5</span>財務・オペ数値（5問）</h2>
+    <p class="sec-lead">②財務ベースラインの正規化と検証を駆動。決算書・レセプトがあれば大半スキップ。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Q</th><th>質問</th><th>形式</th><th>種別</th><th>埋まる先</th><th>未回答時</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="qid">Q27</td>
+            <td class="qtext">私的経費の心当たり<span class="hint">車両・親族給与・自宅按分・保険等。正規化PLの除去対象</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">②正規化列（実力値PLの精度を決める）</td>
+            <td>典型項目（車両・交際費・親族給与）に■要確認を付して仮除去</td>
+          </tr>
+          <tr>
+            <td class="qid">Q28</td>
+            <td class="qtext">患者数の実態（1日平均・ピーク曜日）</td>
+            <td class="fmt">数値</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">②KPI Before／⑭Exit条件の数値仮置き</td>
+            <td>売上÷推定単価で逆算し「推定」フラグ</td>
+          </tr>
+          <tr>
+            <td class="qid">Q29</td>
+            <td class="qtext">手術件数の実績（月次・術式別）</td>
+            <td class="fmt">数値</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">②KPI Before／⑮執刀枠の現状／観察プール初期推定</td>
+            <td>■要確認</td>
+          </tr>
+          <tr>
+            <td class="qid">Q30</td>
+            <td class="qtext">レセプトデータ（CSV等）の入手可否と時期</td>
+            <td class="fmt">選択＋日付</td>
+            <td><span class="pill pill-cond">条件付き</span></td>
+            <td class="dest">②の精度区分（暫定版/確定版の別）を明記</td>
+            <td>決算ベースの暫定版として生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q31</td>
+            <td class="qtext">賃料・契約の特殊事項<span class="hint">親族保有物件・格安/割高賃料など正規化に効くもの</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">②正規化列（市場賃料への引き直し）</td>
+            <td>現状賃料のまま＋注記</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S6 -->
+  <section>
+    <h2><span class="sec-num">S6</span>コーポレート連携・運営（4問）</h2>
+    <p class="sec-lead">③′連携シートと⑭会議体設計を駆動。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Q</th><th>質問</th><th>形式</th><th>種別</th><th>埋まる先</th><th>未回答時</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="qid">Q32</td>
+            <td class="qtext">コーポレートPMIチームからの資料依頼（既に来ているもの）<span class="hint">施設基準実態・勤務表・機器情報等、現場から出すもの</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">③′現場提供リスト（期日付き）</td>
+            <td>標準リスト（施設基準/勤務表/機器/掲示物）で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q33</td>
+            <td class="qtext">施設基準・届出一覧の有無<span class="hint">添付済みなら不要。手術関連の届出が特に重要</span></td>
+            <td class="fmt">添付 or 自由</td>
+            <td><span class="pill pill-auto">抽出優先</span></td>
+            <td class="dest">③′届出棚卸し／⑮算定要件との突合</td>
+            <td>■要確認（コーポレートへの依頼タスク化）</td>
+          </tr>
+          <tr>
+            <td class="qid">Q34</td>
+            <td class="qtext">定例の曜日・時間の制約<span class="hint">院長定例・朝会を入れられる枠</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-cond">条件付き</span></td>
+            <td class="dest">⑭会議体設計（曜日確定版）</td>
+            <td>曜日プレースホルダ（○曜）で生成</td>
+          </tr>
+          <tr>
+            <td class="qid">Q35</td>
+            <td class="qtext">本案件固有の特記事項<span class="hint">上記で拾えていないリスク・約束・事情を自由記述</span></td>
+            <td class="fmt">自由</td>
+            <td><span class="pill pill-must">必ず聞く</span></td>
+            <td class="dest">全資料（該当箇所に反映）</td>
+            <td>なしとして生成</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="note">
+    <strong>提示ロジック｜</strong>全35問のうち、Step 1棚卸しで資料から埋まった<span class="pill pill-auto">抽出優先</span>はスキップし、抽出値を「確認：この理解で正しいか」形式で併記する。Q1の回答により Q10–Q12 を出し分け。実際にユーザーへ提示されるのは<strong>典型ケースで15〜25問</strong>を想定。
+  </div>
+
+  <div class="warn">
+    <strong>スキル化に向けた残タスク｜</strong>① 各出力9点のテンプレート実体（雛形HTML/Sheets構造）の作成 ② SKILL.md本体（フロー・分岐・プレースホルダ規則の記述） ③ もざわ or ごとう等の実案件1件でのドライラン → 質問の過不足を実戦で検証。
+  </div>
+
+  <footer>
+    <span>JMA PMI Playbook</span>
+    <span>PMI_バッチ質問リスト_v0.1 — 2026.07.02</span>
+  </footer>
+
+</div>
+</body>
+</html>

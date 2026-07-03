@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⑧ FAQ 2種（スタッフ向け／患者さま向け）テンプレート v0.1 — JMA PMI Playbook</title>
+<style>
+  :root{
+    --crimson:#8B1A10; --crimson-dark:#6B1208; --crimson-light:#B85248;
+    --off-white:#FAF6F1; --paper:#FDFBF7;
+    --yellow:#FFE96B; --yellow-soft:#FFF4B8;
+    --green-accent:#2D6A4F; --green-soft:#D8E8E0;
+    --blue-accent:#1E5A8A; --blue-soft:#E3EEF7;
+    --ink:#1A1A1A; --ink-soft:#4A4A4A;
+    --line:#D9D2C7; --line-soft:#ECE6DC;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:15px;}
+  body{
+    font-family:"Yu Gothic","游ゴシック","YuGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+    background:var(--off-white); color:var(--ink); line-height:1.75; margin:0; padding:0;
+    font-feature-settings:"palt";
+  }
+  .container{
+    max-width:720px; margin:0 auto; padding:34px 20px 70px;
+    background:var(--paper); min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.04);
+  }
+  .doc-header{border-bottom:3px solid var(--crimson); padding-bottom:18px; margin-bottom:20px;}
+  .doc-meta{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .doc-meta .badge{background:var(--crimson); color:var(--paper); padding:2px 10px;}
+  .doc-meta .version{background:var(--ink); color:var(--paper); padding:2px 9px;}
+  h1{
+    font-family:"Cambria","Georgia","Yu Mincho","游明朝",serif;
+    font-size:1.5rem; font-weight:600; line-height:1.35; margin:0 0 4px;
+  }
+  h1 .accent{color:var(--crimson);}
+  .doc-subtitle{font-size:0.82rem; color:var(--ink-soft); margin:0;}
+
+  .skill-note{
+    background:var(--yellow-soft); border:1px dashed #C49B00; padding:12px 16px;
+    margin:14px 0 22px; font-size:0.8rem;
+  }
+  .skill-note .sn-label{
+    font-family:"Cambria","Georgia",serif; font-size:0.7rem; letter-spacing:0.13em;
+    color:#8A6B00; font-weight:700; margin-bottom:5px;
+  }
+  .skill-note p{margin:0 0 6px;}
+  .skill-note p:last-child{margin-bottom:0;}
+  .skill-note code{background:var(--paper); border:1px solid var(--line-soft); padding:0 5px; font-size:0.9em;}
+
+  .var{background:var(--blue-soft); color:var(--blue-accent); font-weight:700; padding:0 4px; border-radius:3px;}
+  .placeholder{color:#8A6B00; background:var(--yellow-soft); padding:0 4px; font-weight:700;}
+
+  h2{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.2rem; font-weight:600;
+    border-left:5px solid var(--crimson); padding-left:11px; margin:34px 0 8px;
+  }
+  h2 .sec-num{font-family:"Cambria","Georgia",serif; color:var(--crimson); margin-right:7px;}
+  .sec-lead{font-size:0.82rem; color:var(--ink-soft); margin:0 0 14px; padding-left:16px;}
+
+  .qa{border:1px solid var(--line); margin:10px 0; background:var(--paper);}
+  .qa .q{
+    background:var(--off-white); padding:9px 14px; font-weight:700; font-size:0.88rem;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .qa .q::before{content:"Q. "; color:var(--crimson); font-family:"Cambria","Georgia",serif;}
+  .qa .a{padding:10px 14px; font-size:0.86rem;}
+  .qa .a::before{content:"A. "; color:var(--green-accent); font-weight:700; font-family:"Cambria","Georgia",serif;}
+  .qa .a .branch{
+    display:block; font-size:0.8rem; margin-top:5px; padding:6px 10px; background:var(--off-white);
+  }
+  .qa .a .branch strong{color:var(--crimson-dark);}
+
+  .note{
+    background:var(--blue-soft); border-left:4px solid var(--blue-accent);
+    padding:11px 15px; margin:14px 0; font-size:0.82rem;
+  }
+  .note strong{color:var(--blue-accent);}
+
+  .patient-head{
+    text-align:center; border:2px solid var(--crimson); padding:20px 18px 16px; margin:14px 0 18px;
+  }
+  .patient-head .ph-title{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.25rem; font-weight:600;
+    color:var(--crimson-dark); margin:0 0 6px;
+  }
+  .patient-head p{font-size:0.88rem; margin:0;}
+
+  .page-break{border-top:3px double var(--crimson); margin:40px 0 30px; position:relative;}
+  .page-break::after{
+    content:"✂ ここから患者さま向け（受付設置・院内掲示用）"; position:absolute; top:-12px; left:50%;
+    transform:translateX(-50%); background:var(--paper); padding:0 12px;
+    font-size:0.72rem; color:var(--crimson); font-family:"Cambria","Georgia",serif;
+    white-space:nowrap;
+  }
+
+  footer{
+    margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+  @media print{
+    .container{box-shadow:none; padding:16px;}
+    .skill-note{display:none;}
+    section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">P0起動パック ⑧</span>
+      <span class="version">テンプレート v0.1</span>
+    </div>
+    <h1>FAQ 2種 <span class="accent">スタッフ向け／患者さま向け</span></h1>
+    <p class="doc-subtitle">D1配布・掲示用。⑥台本と同一トーン・同一内容で、紙として手元に残るもの。</p>
+  </header>
+
+  <div class="skill-note">
+    <div class="sn-label">⚙ スキル生成時のルール（配布版から削除）</div>
+    <p>① シナリオ分岐（A/B/C）は該当行のみ残す。⑥の台本・想定問答と<strong>文言レベルで一致</strong>させる（言い回しが少しでも違うと現場で「どっちが正しいの」が起きる）。</p>
+    <p>② 差し込み変数：<code>【医院名】【前院長名】【本部担当者名】【D1日付】【新院長候補名】【最終勤務・移行時期】【EMR名】</code>。</p>
+    <p>③ Q26（診療時間等の変更予定）が「変更あり」の場合、患者向けQ3に変更内容を追記する。</p>
+    <p>④ 患者向けは<strong>敬体・やわらかい表現・専門用語なし</strong>。スタッフ向けは⑥のQ&Aの要約版として簡潔に。</p>
+    <p>⑤ <strong>「地域で一番」「日本一」等のNo.1表現は院内・スタッフ向け限定。</strong>患者向けFAQ・院外掲示・HPには使わない（医療広告ガイドラインの比較優良広告に抵触するおそれ）。</p>
+  </div>
+
+  <!-- スタッフ向け -->
+  <section>
+    <h2><span class="sec-num">A</span>スタッフ向けFAQ（休憩室掲示・配布用）</h2>
+    <p class="sec-lead">⑥アナウンスで話した内容の紙版。「あとで読み返せる」ことが目的。</p>
+
+    <div class="qa"><div class="q">給与・雇用条件は変わりますか？</div><div class="a">変わりません。現在の条件をそのまま引き継ぎます。契約書の名義（会社名）変更の手続きが後日ありますが、条件の中身は同じです。手続きの際は書面でご説明します。</div></div>
+    <div class="qa"><div class="q">雇用は続きますか？</div><div class="a">全員に続けていただく前提です。体制を続けて厚くするための承継であり、人を減らすためのものではありません。</div></div>
+    <div class="qa"><div class="q">先生（院長）はどうなりますか？</div><div class="a">
+      <span class="branch"><strong>A：</strong>これまでどおり診療を続けます。変わるのは経営・事務面の担当だけです。</span>
+      <span class="branch"><strong>B：</strong>診療は続けます。時期を見て勤務日を調整していきますが（<span class="var">【最終勤務・移行時期】</span>頃を目安）、急にいなくなることはありません。</span>
+      <span class="branch"><strong>C：</strong><span class="var">【最終勤務・移行時期】</span>まで診療を続け、新しい院長へ引き継ぎます。後任が決まり次第、<strong>最初に皆さんへ</strong>お伝えします。</span>
+    </div></div>
+    <div class="qa"><div class="q">シフト・勤務時間・仕事のやり方は変わりますか？</div><div class="a">当面変えません。変更が必要になる時は、必ず事前に説明・相談してから決めます。カルテ等のシステムも当面そのままです。</div></div>
+    <div class="qa"><div class="q">JMA（日本医療連合）とは？</div><div class="a">後継ぎ問題などで続けることが難しくなったクリニックを承継し、地域の医療を50年、100年先までつないでいくことを使命とする医療グループです。将来的には1000を超えるクリニックをお預かりし、日本で一番規模が大きく、質も一番高い医療グループになることを目指しています。そしてこの医院では、皆さんと一緒に<strong>「地域で一番の眼科」</strong>を目指します。現場責任者は<span class="var">【本部担当者名】</span>です。</div></div>
+    <div class="qa"><div class="q">患者さまに聞かれたら？</div><div class="a">「経営体制が変わりますが、診療はこれまでどおり続きます」で統一をお願いします。詳しくは患者さま向けFAQ（受付設置）のとおり。答えにくい質問は<span class="var">【本部担当者名】</span>へ回してください。</div></div>
+    <div class="qa"><div class="q">ホームページやGoogleの情報が変わると聞きました</div><div class="a">JMAのグロースチームが順次更新します。皆さんの作業はありません。「ネットを見て来た」という患者さまが増える可能性がありますので、その際はいつもどおりのご対応をお願いします。</div></div>
+    <div class="qa"><div class="q">相談したいことがある時は？</div><div class="a">診療のことは院長へ。勤務・体制・今回の承継に関することは<span class="var">【本部担当者名】</span>へ、いつでも直接どうぞ。最初の1週間で全員と個別面談の時間もつくります。</div></div>
+  </section>
+
+  <!-- ✂ -->
+  <div class="page-break"></div>
+
+  <!-- 患者向け -->
+  <section>
+    <h2><span class="sec-num">B</span>患者さま向けFAQ（受付設置・院内掲示用）</h2>
+    <p class="sec-lead">A4・1枚。掲示版は上部あいさつ＋Q1〜3のみ抜粋でも可。</p>
+
+    <div class="patient-head">
+      <p class="ph-title"><span class="var">【医院名】</span>より大切なお知らせ</p>
+      <p>当院は<span class="var">【D1日付】</span>より、運営体制を新たにいたしました。<br><strong>診療は、これまでどおり続いてまいります。</strong></p>
+    </div>
+
+    <div class="qa"><div class="q">何が変わるのですか？</div><div class="a">医院の運営（経営・事務）の体制が新しくなりました。診療の内容、保険診療のお取り扱い、スタッフは変わりません。安心してこれまでどおりご来院ください。</div></div>
+    <div class="qa"><div class="q">先生は代わってしまうのですか？</div><div class="a">
+      <span class="branch"><strong>A：</strong>いいえ。<span class="var">【前院長名】</span>院長が、これまでどおり診療いたします。</span>
+      <span class="branch"><strong>B：</strong><span class="var">【前院長名】</span>院長は引き続き診療いたします。今後、診療体制を充実させるため、新しい医師が加わっていく予定です。</span>
+      <span class="branch"><strong>C：</strong><span class="var">【前院長名】</span>院長は<span class="var">【最終勤務・移行時期】</span>まで診療を続け、その後は新しい院長が診療を引き継ぎます。引き継ぎは丁寧に行いますので、ご安心ください。<span class="placeholder">■要確認：Q12（後任確定済なら「後任は【新院長候補名】です」を追記）</span></span>
+    </div></div>
+    <div class="qa"><div class="q">診療時間・休診日は変わりますか？</div><div class="a">変わりません。これまでどおりの時間で診療しております。<span class="placeholder">■要確認：Q26（変更ありの場合はここに新診療時間を記載）</span></div></div>
+    <div class="qa"><div class="q">カルテや検査の記録は引き継がれますか？</div><div class="a">はい、すべて引き継がれます。これまでの診療記録・検査結果をもとに、変わらず診療を続けます。改めてご説明いただく必要はありません。</div></div>
+    <div class="qa"><div class="q">診察券・保険証はこれまでのままで大丈夫ですか？</div><div class="a">はい、そのままお使いいただけます。手続き等で変更がある場合は、受付にて改めてご案内いたします。</div></div>
+    <div class="qa"><div class="q">予約の方法は変わりますか？</div><div class="a">変わりません。これまでどおりの方法でご予約ください。今後、より便利な予約方法をご用意する際は、院内とホームページでお知らせいたします。</div></div>
+    <div class="qa"><div class="q">お薬や治療は続けられますか？</div><div class="a">はい、現在の治療・処方はそのまま継続します。ご不安な点は、診察の際にどうぞお気軽にお尋ねください。</div></div>
+
+    <p style="text-align:center; font-size:0.86rem; margin-top:18px;">
+      ご不明な点は、お気軽に受付までお声がけください。<br>
+      <span style="font-family:'Cambria','Georgia',serif; color:var(--crimson-dark); font-weight:600;"><span class="var">【医院名】</span>　院長　<span class="var">【前院長名】</span>／運営：日本医療連合（JMA）</span>
+    </p>
+  </section>
+
+  <div class="note">
+    <strong>運用メモ（配布版から削除）｜</strong>患者向けFAQは受付カウンターに設置＋待合掲示。受付には「口頭で聞かれた時の一言＝経営体制が変わりますが、診療はこれまでどおり続きます」を再周知（⑥Q8と同一）。シナリオB/Cでは、院長交代の詳細を受付が語りすぎない運用にする（深掘り質問は院長または<span class="var">【本部担当者名】</span>へ）。
+  </div>
+
+  <footer>
+    <span>JMA PMI Playbook — P0起動パック ⑧</span>
+    <span>PMI_FAQ2種_テンプレート_v0.1 — 2026.07.02</span>
+  </footer>
+
+</div>
+</body>
+</html>

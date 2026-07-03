@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMI 資料体系マップ（INDEX）v0.1 — JMA PMI Playbook</title>
+<style>
+  :root{
+    --crimson:#8B1A10; --crimson-dark:#6B1208; --crimson-light:#B85248;
+    --off-white:#FAF6F1; --paper:#FDFBF7;
+    --yellow:#FFE96B; --yellow-soft:#FFF4B8;
+    --green-accent:#2D6A4F; --green-soft:#D8E8E0;
+    --blue-accent:#1E5A8A; --blue-soft:#E3EEF7;
+    --ink:#1A1A1A; --ink-soft:#4A4A4A;
+    --line:#D9D2C7; --line-soft:#ECE6DC;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:15px;}
+  body{
+    font-family:"Yu Gothic","游ゴシック","YuGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+    background:var(--off-white); color:var(--ink); line-height:1.65; margin:0; padding:0;
+    font-feature-settings:"palt";
+  }
+  .container{
+    max-width:680px; margin:0 auto; padding:30px 16px 66px;
+    background:var(--paper); min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.04);
+  }
+  .doc-header{border-bottom:3px solid var(--crimson); padding-bottom:16px; margin-bottom:18px;}
+  .doc-meta{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .doc-meta .badge{background:var(--crimson); color:var(--paper); padding:2px 10px;}
+  .doc-meta .version{background:var(--ink); color:var(--paper); padding:2px 9px;}
+  h1{
+    font-family:"Cambria","Georgia","Yu Mincho","游明朝",serif;
+    font-size:1.45rem; font-weight:600; line-height:1.35; margin:0 0 4px;
+  }
+  h1 .accent{color:var(--crimson);}
+  .doc-subtitle{font-size:0.82rem; color:var(--ink-soft); margin:0;}
+
+  /* hierarchy diagram */
+  .hier{margin:18px 0 24px;}
+  .h-level{
+    border:1px solid var(--line); background:var(--paper); padding:13px 15px;
+    position:relative; margin:0 0 0 0;
+  }
+  .h-level + .h-level{margin-top:14px;}
+  .h-level + .h-level::before{
+    content:"↓"; position:absolute; top:-15px; left:22px;
+    color:var(--crimson); font-weight:700; font-size:0.9rem; background:var(--paper); padding:0 4px;
+  }
+  .h-level .h-role{
+    font-family:"Cambria","Georgia",serif; font-size:0.7rem; letter-spacing:0.13em;
+    color:var(--crimson); font-weight:700; text-transform:uppercase; display:block; margin-bottom:2px;
+  }
+  .h-level .h-doc{font-weight:700; font-size:0.95rem;}
+  .h-level .h-doc small{font-weight:400; color:var(--ink-soft); font-size:0.76rem;}
+  .h-level .h-desc{font-size:0.8rem; color:var(--ink-soft); margin-top:3px;}
+  .h-level.lv1{border-left:5px solid var(--crimson);}
+  .h-level.lv2{border-left:5px solid var(--crimson-light); margin-left:14px;}
+  .h-level.lv3{border-left:5px solid var(--blue-accent); margin-left:28px;}
+  .h-level.lv4{border-left:5px solid var(--green-accent); margin-left:42px;}
+  .h-level.lv2::before,.h-level.lv3::before,.h-level.lv4::before{left:8px;}
+
+  h2{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.14rem; font-weight:600;
+    border-left:5px solid var(--crimson); padding-left:11px; margin:30px 0 10px;
+  }
+
+  .table-wrap{overflow-x:auto; margin:10px 0; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; font-size:0.79rem; background:var(--paper);}
+  th,td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  th{background:var(--crimson); color:var(--paper); font-weight:600; font-size:0.75rem; white-space:nowrap;}
+  td.row-label{background:var(--off-white); font-weight:700; border-right:1px solid var(--line); white-space:nowrap; font-family:"Cambria","Georgia",serif; color:var(--crimson);}
+  tbody tr:hover{background:var(--off-white);}
+
+  .pill{display:inline-block; padding:1px 8px; border-radius:9px; font-size:0.7rem; font-weight:700; white-space:nowrap;}
+  .pill-done{background:var(--green-soft); color:var(--green-accent);}
+  .pill-todo{background:var(--yellow-soft); color:#8A6B00;}
+  .pill-sheets{background:var(--green-soft); color:var(--green-accent);}
+  .pill-html{background:var(--blue-soft); color:var(--blue-accent);}
+  .pill-arch{background:var(--line-soft); color:var(--ink-soft);}
+
+  .note{
+    background:var(--blue-soft); border-left:4px solid var(--blue-accent);
+    padding:10px 14px; margin:14px 0; font-size:0.8rem;
+  }
+  .note strong{color:var(--blue-accent);}
+
+  footer{
+    margin-top:36px; padding-top:14px; border-top:1px solid var(--line);
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+  @media print{.container{box-shadow:none; padding:16px;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">JMA PMI Playbook</span>
+      <span class="version">INDEX v0.1</span>
+    </div>
+    <h1>PMI 資料体系マップ<span class="accent">（INDEX）</span></h1>
+    <p class="doc-subtitle">迷ったらここに戻る1枚。各資料の役割・親子関係・最新版。中身は各資料に委ね、重複は作らない。</p>
+  </header>
+
+  <!-- 階層図 -->
+  <div class="hier">
+    <div class="h-level lv1">
+      <span class="h-role">Layer 1｜型 — 思想と設計</span>
+      <span class="h-doc"><a href="plan-100days.html" style="color:inherit;">100日プラン</a> <small>PMI_100日プラン_一医院</small></span>
+      <div class="h-desc">5段変速（掌握→診断→初手→起動→定着）×Exit条件。「なぜこの順番か」の根拠はここ。</div>
+    </div>
+    <div class="h-level lv2">
+      <span class="h-role">Layer 2｜実行 — 現場が毎日見る</span>
+      <span class="h-doc"><a href="todo-tracker.html" style="color:inherit;">100日TODOトラッカー</a> <small>PMI_100日TODOトラッカー</small></span>
+      <div class="h-desc">型を日次タスクに落とした実行リスト。型/判タグでジュニア独り立ちを管理。案件ごとに複製して使う。</div>
+    </div>
+    <div class="h-level lv3">
+      <span class="h-role">Layer 3｜道具 — 案件ごとに生成</span>
+      <span class="h-doc"><a href="batch-questions.html" style="color:inherit;">バッチ質問リスト</a> ＋ P0起動パック9点 <small>PMI_バッチ質問リスト／②〜⑮</small></span>
+      <div class="h-desc">IM・決算・名簿を投入→質問回答→9点が自動生成される（スキル化予定）。TODOの各タスクから参照される。</div>
+    </div>
+  </div>
+
+  <!-- 資料一覧 -->
+  <h2>資料一覧・最新版</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>資料</th><th>最新版</th><th>読み手</th><th>更新タイミング</th></tr></thead>
+      <tbody>
+        <tr><td class="row-label">100日プラン</td><td>v0.1（オペ室表記反映済）</td><td>本部・現場リーダー</td><td>案件の学びを還流する時</td></tr>
+        <tr><td class="row-label">TODOトラッカー</td><td>v0.2</td><td>現場実行者（ジュニア含む）</td><td>案件ごとに複製・日次更新</td></tr>
+        <tr><td class="row-label">バッチ質問リスト</td><td>v0.1（全35問）</td><td>スキル実行者</td><td>ドライラン後にv上げ</td></tr>
+        <tr><td class="row-label">初日アクションリスト</td><td><span class="pill pill-arch">廃止・アーカイブ</span></td><td>—</td><td>100日プランW1とTODOのD1〜D5に吸収済</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 9点ステータス -->
+  <h2>P0起動パック9点 — 作成ステータス</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th style="width:10%;">#</th><th>ツール</th><th style="width:16%;">形式</th><th style="width:18%;">実体</th></tr></thead>
+      <tbody>
+        <tr><td class="row-label">②</td><td>財務ベースライン（正規化PL・KPI Before・観察プールKPI）</td><td><span class="pill pill-sheets">Sheets</span></td><td><span class="pill pill-done">v0.1 完成（xlsx→Drive）</span></td></tr>
+        <tr><td class="row-label">③′</td><td>コーポレート連携シート（材料出し・切替日カウントダウン）</td><td><span class="pill pill-sheets">Sheets</span></td><td><span class="pill pill-done">v0.1 完成（xlsx→Drive）</span></td></tr>
+        <tr><td class="row-label">④</td><td>キーパーソンマップ＋面談計画</td><td><span class="pill pill-sheets">Sheets</span></td><td><span class="pill pill-done">v0.1 完成（xlsx→Drive）</span></td></tr>
+        <tr><td class="row-label">⑤</td><td>紹介元マップ</td><td><span class="pill pill-sheets">Sheets</span></td><td><span class="pill pill-done">v0.1 完成（xlsx→Drive）</span></td></tr>
+        <tr><td class="row-label">⑥</td><td><a href="tpl-06-d1-announce.html">D1アナウンス台本＋従業員説明資料（シナリオA/B/C別）</a></td><td><span class="pill pill-html">HTML印刷</span></td><td><span class="pill pill-done">v0.1 完成</span></td></tr>
+        <tr><td class="row-label">⑦</td><td><a href="tpl-07-interview.html">個別面談シート（ORT／看護師／受付の3種）</a></td><td><span class="pill pill-html">HTML印刷</span></td><td><span class="pill pill-done">v0.1 完成</span></td></tr>
+        <tr><td class="row-label">⑧</td><td><a href="tpl-08-faq.html">FAQ 2種（スタッフ向け／患者向け）</a></td><td><span class="pill pill-html">HTML印刷</span></td><td><span class="pill pill-done">v0.1 完成</span></td></tr>
+        <tr><td class="row-label">⑭</td><td><a href="tpl-14-kickoff.html">キックオフパック（進め方・依頼事項・会議体・トリガー表・やらないこと宣言）</a></td><td><span class="pill pill-html">HTML印刷</span></td><td><span class="pill pill-done">v0.1 完成</span></td></tr>
+        <tr><td class="row-label">⑮</td><td>医師リソース計画（診療枠×埋め手・オペ日管理・要求定義）</td><td><span class="pill pill-sheets">Sheets</span></td><td><span class="pill pill-done">v0.1 完成（xlsx→Drive）</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.74rem; color:var(--ink-soft); margin:6px 0 0;">※⑨〜⑬は第2弾（KPIダッシュボード・週次テンプレ・案件別100日プラン・紹介営業キット・100日レビュー報告書）。P0パック稼働後に着手。</p>
+
+  <div class="note">
+    <strong>チーム分担（再掲）｜</strong>現場PMI＝オペ・人（本体系のスコープ）／コーポレートPMI＝契約・労務・保険指定申請／グロース＝Web集患（HP・MEO等）即時着手、現場は周知と素材提供のみ。報告先はJMA本部。
+  </div>
+
+  <footer>
+    <span>JMA PMI Playbook</span>
+    <span>PMI_資料体系マップ_INDEX_v0.1 — 2026.07.02</span>
+  </footer>
+
+</div>
+</body>
+</html>

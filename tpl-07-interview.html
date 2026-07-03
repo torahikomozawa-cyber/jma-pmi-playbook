@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⑦ 個別面談シート テンプレート v0.1 — JMA PMI Playbook</title>
+<style>
+  :root{
+    --crimson:#8B1A10; --crimson-dark:#6B1208; --crimson-light:#B85248;
+    --off-white:#FAF6F1; --paper:#FDFBF7;
+    --yellow:#FFE96B; --yellow-soft:#FFF4B8;
+    --green-accent:#2D6A4F; --green-soft:#D8E8E0;
+    --blue-accent:#1E5A8A; --blue-soft:#E3EEF7;
+    --ink:#1A1A1A; --ink-soft:#4A4A4A;
+    --line:#D9D2C7; --line-soft:#ECE6DC;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:15px;}
+  body{
+    font-family:"Yu Gothic","游ゴシック","YuGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+    background:var(--off-white); color:var(--ink); line-height:1.7; margin:0; padding:0;
+    font-feature-settings:"palt";
+  }
+  .container{
+    max-width:720px; margin:0 auto; padding:34px 20px 70px;
+    background:var(--paper); min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.04);
+  }
+  .doc-header{border-bottom:3px solid var(--crimson); padding-bottom:18px; margin-bottom:20px;}
+  .doc-meta{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .doc-meta .badge{background:var(--crimson); color:var(--paper); padding:2px 10px;}
+  .doc-meta .version{background:var(--ink); color:var(--paper); padding:2px 9px;}
+  h1{
+    font-family:"Cambria","Georgia","Yu Mincho","游明朝",serif;
+    font-size:1.5rem; font-weight:600; line-height:1.35; margin:0 0 4px;
+  }
+  h1 .accent{color:var(--crimson);}
+  .doc-subtitle{font-size:0.82rem; color:var(--ink-soft); margin:0;}
+
+  .skill-note{
+    background:var(--yellow-soft); border:1px dashed #C49B00; padding:12px 16px;
+    margin:14px 0 22px; font-size:0.8rem;
+  }
+  .skill-note .sn-label{
+    font-family:"Cambria","Georgia",serif; font-size:0.7rem; letter-spacing:0.13em;
+    color:#8A6B00; font-weight:700; margin-bottom:5px;
+  }
+  .skill-note p{margin:0 0 6px;}
+  .skill-note p:last-child{margin-bottom:0;}
+  .skill-note code{background:var(--paper); border:1px solid var(--line-soft); padding:0 5px; font-size:0.9em;}
+
+  .var{background:var(--blue-soft); color:var(--blue-accent); font-weight:700; padding:0 4px; border-radius:3px;}
+
+  h2{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.2rem; font-weight:600;
+    border-left:5px solid var(--crimson); padding-left:11px; margin:34px 0 8px;
+  }
+  h2 .sec-num{font-family:"Cambria","Georgia",serif; color:var(--crimson); margin-right:7px;}
+  .sec-lead{font-size:0.82rem; color:var(--ink-soft); margin:0 0 14px; padding-left:16px;}
+
+  /* rules */
+  .rules{border:1px solid var(--line); background:var(--paper); padding:14px 18px; margin:12px 0;}
+  .rules h4{margin:0 0 8px; font-size:0.95rem; color:var(--crimson-dark);}
+  .rules ul{margin:0; padding-left:0; list-style:none;}
+  .rules li{position:relative; padding:5px 0 5px 22px; font-size:0.86rem; border-bottom:1px dashed var(--line-soft);}
+  .rules li:last-child{border-bottom:none;}
+  .rules li::before{content:"▸"; position:absolute; left:2px; top:5px; color:var(--crimson);}
+
+  /* question item with write-in */
+  .q-item{border:1px solid var(--line); margin:10px 0; background:var(--paper);}
+  .q-item .qi-q{
+    background:var(--off-white); padding:9px 14px; font-weight:700; font-size:0.88rem;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .q-item .qi-q .qi-num{
+    font-family:"Cambria","Georgia",serif; color:var(--crimson); margin-right:8px;
+  }
+  .q-item .qi-aim{
+    font-size:0.74rem; color:var(--ink-soft); padding:6px 14px 0; font-weight:400;
+  }
+  .q-item .qi-aim strong{color:var(--green-accent);}
+  .q-item .qi-write{
+    margin:8px 14px 12px; height:52px;
+    background:repeating-linear-gradient(transparent, transparent 24px, var(--line-soft) 24px, var(--line-soft) 25px);
+    border-bottom:1px solid var(--line-soft);
+  }
+
+  /* quadrant header */
+  .quad-tag{
+    display:inline-block; font-size:0.7rem; font-weight:700; padding:1px 9px;
+    border-radius:9px; margin-right:6px; vertical-align:2px;
+  }
+  .qt-1{background:var(--blue-soft); color:var(--blue-accent);}
+  .qt-2{background:var(--yellow-soft); color:#8A6B00;}
+  .qt-3{background:#F3DEDB; color:var(--crimson-dark);}
+  .qt-4{background:var(--green-soft); color:var(--green-accent);}
+
+  /* role section */
+  .role{border:1px solid var(--line); margin:16px 0;}
+  .role .r-head{
+    padding:10px 16px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px;
+  }
+  .role.r-ort .r-head{background:var(--blue-soft);}
+  .role.r-ns .r-head{background:var(--green-soft);}
+  .role.r-re .r-head{background:var(--yellow-soft);}
+  .role .r-tag{
+    font-family:"Cambria","Georgia",serif; font-weight:700; font-size:0.8rem;
+    padding:2px 12px; color:var(--paper); background:var(--crimson);
+  }
+  .role .r-title{font-weight:700; font-size:0.92rem;}
+  .role .r-body{padding:12px 16px;}
+
+  /* assessment */
+  .assess{
+    border:2px solid var(--crimson); background:var(--paper); padding:16px 18px; margin:18px 0;
+  }
+  .assess h4{margin:0 0 10px; font-size:0.98rem; color:var(--crimson-dark); font-family:"Cambria","Georgia","Yu Mincho",serif;}
+  .assess .a-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+  .assess .a-opt{
+    flex:1; min-width:150px; border:1px solid var(--line); padding:9px 12px; font-size:0.82rem;
+    display:flex; gap:8px; align-items:flex-start;
+  }
+  .assess .a-opt .box{
+    width:16px; height:16px; border:2px solid var(--ink-soft); flex-shrink:0; margin-top:2px;
+  }
+  .assess .a-opt.red{border-left:5px solid var(--crimson);}
+  .assess .a-opt.yel{border-left:5px solid #C49B00;}
+  .assess .a-opt.grn{border-left:5px solid var(--green-accent);}
+  .assess .a-write{
+    height:50px; margin-top:4px;
+    background:repeating-linear-gradient(transparent, transparent 24px, var(--line-soft) 24px, var(--line-soft) 25px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .assess .a-label{font-size:0.78rem; font-weight:700; color:var(--ink-soft); margin:8px 0 2px;}
+
+  /* meta fields */
+  .meta-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;}
+  .meta-grid .m-cell{border:1px solid var(--line); padding:8px 12px; font-size:0.82rem;}
+  .meta-grid .m-cell .m-label{font-size:0.7rem; color:var(--crimson); font-weight:700; display:block; letter-spacing:0.05em;}
+  .meta-grid .m-cell .m-line{border-bottom:1px solid var(--line-soft); height:24px;}
+
+  .note{
+    background:var(--blue-soft); border-left:4px solid var(--blue-accent);
+    padding:11px 15px; margin:14px 0; font-size:0.82rem;
+  }
+  .note strong{color:var(--blue-accent);}
+
+  .page-break{border-top:3px double var(--crimson); margin:36px 0 26px; position:relative;}
+  .page-break::after{
+    content:"✂ 役割別ページ — 該当者の分を印刷"; position:absolute; top:-12px; left:50%;
+    transform:translateX(-50%); background:var(--paper); padding:0 12px;
+    font-size:0.72rem; color:var(--crimson); font-family:"Cambria","Georgia",serif;
+  }
+
+  footer{
+    margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+  @media print{
+    .container{box-shadow:none; padding:16px;}
+    .skill-note{display:none;}
+    section{page-break-inside:avoid;}
+    .role{page-break-before:always;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">P0起動パック ⑦</span>
+      <span class="version">テンプレート v0.1</span>
+    </div>
+    <h1>個別面談シート <span class="accent">共通＋役割別3種</span></h1>
+    <p class="doc-subtitle">D1〜W1の一次面談用。1人1枚印刷。面談後は④キーパーソンマップへ転記。</p>
+  </header>
+
+  <div class="skill-note">
+    <div class="sn-label">⚙ スキル生成時のルール（配布版から削除）</div>
+    <p>① ④の名簿から<strong>1人1枚</strong>生成（氏名・役割・面談日を差し込み済みの状態で）。役割がORT/看護師/受付以外（事務・非常勤医師等）は共通パートのみで出力。</p>
+    <p>② Q18（既知の退職リスク）に該当する人には、リスク仮説を<code>面談者メモ</code>欄に事前記載する。</p>
+    <p>③ 差し込み変数：<code>【氏名】【役割】【面談日】【面談者名】</code>。</p>
+  </div>
+
+  <!-- 01 面談ルール -->
+  <section>
+    <h2><span class="sec-num">01</span>面談の進め方（面談者向け・全役割共通）</h2>
+    <div class="rules">
+      <h4>基本ルール</h4>
+      <ul>
+        <li><strong>15〜30分・個室（または声が届かない場所）</strong>。診療の邪魔にならない時間帯で。</li>
+        <li>比率は<strong>相手8：自分2</strong>。聞く場であって説明する場ではない（説明はアナウンスとFAQで済んでいる）。</li>
+        <li>冒頭に必ず：「今日は<strong>評価の場ではありません</strong>。仕事を教えてもらい、気になっていることを聞く場です。話した内容は本人の許可なく他のスタッフに伝えません。」</li>
+        <li><strong>約束しない</strong>：給与・配置・シフトの個別確約はNG（⑥のNGリスト準拠）。持ち帰る時は「確認して○日までに答えます」と期日を切る。</li>
+        <li>小さな改善要望（備品・掲示等）が出たら<strong>即実行候補</strong>としてマーク → W2の「聞いて動く実績」に使う。</li>
+        <li>終了後<strong>当日中に</strong>下部の評価欄を記入し、④へ転記。記憶が新しいうちに。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 02 共通パート -->
+  <section>
+    <h2><span class="sec-num">02</span>共通パート（全員）</h2>
+
+    <div class="meta-grid">
+      <div class="m-cell"><span class="m-label">氏名</span><div class="m-line"><span class="var">【氏名】</span></div></div>
+      <div class="m-cell"><span class="m-label">役割</span><div class="m-line"><span class="var">【役割】</span></div></div>
+      <div class="m-cell"><span class="m-label">面談日</span><div class="m-line"><span class="var">【面談日】</span></div></div>
+      <div class="m-cell"><span class="m-label">面談者</span><div class="m-line"><span class="var">【面談者名】</span></div></div>
+    </div>
+
+    <div class="q-item">
+      <div class="qi-q"><span class="qi-num">1</span>今のお仕事の内容を教えてください。1日の流れで言うと？</div>
+      <div class="qi-aim">狙い：<strong>暗黙知の棚卸し</strong>。本人にしかできない業務（属人箇所）を聞き逃さない。</div>
+      <div class="qi-write"></div>
+    </div>
+    <div class="q-item">
+      <div class="qi-q"><span class="qi-num">2</span><span class="quad-tag qt-1">不安</span>今回の体制変更で、気になっていること・不安なことはありますか？</div>
+      <div class="qi-aim">狙い：不安の言語化。出てきた不安は否定せず「そう感じますよね」と受けてから事実を伝える。</div>
+      <div class="qi-write"></div>
+    </div>
+    <div class="q-item">
+      <div class="qi-q"><span class="qi-num">3</span><span class="quad-tag qt-2">不満</span>今の職場で「これはちょっと大変」「ずっと困っている」ことはありますか？</div>
+      <div class="qi-aim">狙い：不満の在庫確認。小さいもの（備品・動線）は即実行候補◎マーク。</div>
+      <div class="qi-write"></div>
+    </div>
+    <div class="q-item">
+      <div class="qi-q"><span class="qi-num">4</span><span class="quad-tag qt-3">兆候</span>この先の働き方について、考えていることはありますか？（勤務時間・ご家庭の事情・将来のことなど）</div>
+      <div class="qi-aim">狙い：<strong>辞意兆候の察知</strong>。直接「辞めますか」とは聞かない。転居・家庭・資格取得等の文脈から推し量り、下部評価欄に反映。</div>
+      <div class="qi-write"></div>
+    </div>
+    <div class="q-item">
+      <div class="qi-q"><span class="qi-num">5</span><span class="quad-tag qt-4">改善</span>「ここがこうなったら、もっと良い医院になるのに」と思うことはありますか？</div>
+      <div class="qi-aim">狙い：改善アイデアの収集＋当事者化。良い案は「それ、一緒にやりませんか」まで踏み込んで良い（実施の約束はW2以降）。</div>
+      <div class="qi-write"></div>
+    </div>
+    <div class="q-item">
+      <div class="qi-q"><span class="qi-num">6</span>最後に、私（JMA側）に聞いておきたいことはありますか？</div>
+      <div class="qi-aim">狙い：双方向の担保。答えられない質問は期日を切って持ち帰る。</div>
+      <div class="qi-write"></div>
+    </div>
+  </section>
+
+  <!-- ✂ -->
+  <div class="page-break"></div>
+
+  <!-- 03 役割別 -->
+  <section>
+    <h2><span class="sec-num">03</span>役割別追加質問</h2>
+    <p class="sec-lead">共通6問のあとに続けて2〜3問。該当役割のブロックのみ使用。</p>
+
+    <div class="role r-ort">
+      <div class="r-head"><span class="r-tag">ORT</span><span class="r-title">視能訓練士 — 検査運用と教育の要</span></div>
+      <div class="r-body">
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">O-1</span>検査の割り振り（どの患者さんにどの検査をするか）は、今どうやって決まっていますか？</div>
+          <div class="qi-aim">狙い：<strong>トリアージの実態</strong>を担い手本人から。W2ボトルネック診断の一次情報。</div>
+          <div class="qi-write"></div>
+        </div>
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">O-2</span>検査で時間がかかる・詰まりやすいのはどこですか？（機器・患者層・段取り）</div>
+          <div class="qi-aim">狙い：検査レーンの律速点。散瞳待ち・眼鏡処方等の「重い業務」の頻度感も。</div>
+          <div class="qi-write"></div>
+        </div>
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">O-3</span>他のスタッフに検査を教えるとしたら、どこまで任せられそうですか？</div>
+          <div class="qi-aim">狙い：クロストレーニング余地＋教育者としての意欲確認（ORTは検査＋教育の二役）。</div>
+          <div class="qi-write"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role r-ns">
+      <div class="r-head"><span class="r-tag">看護師</span><span class="r-title">看護師 — オペ体制と算定要件の要</span></div>
+      <div class="r-body">
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">N-1</span>手術（オペ日）の日の動きを教えてください。準備から片付けまで。</div>
+          <div class="qi-aim">狙い：オペ室運用の実態。介助・器械出し・外来並行の負荷感。休眠案件では「以前やっていた頃」の記憶を聞く。</div>
+          <div class="qi-write"></div>
+        </div>
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">N-2</span>手術件数が増えるとしたら、今の体制で何が足りなくなると思いますか？</div>
+          <div class="qi-aim">狙い：増枠時のボトルネックを現場感覚で。人員・物品・時間のどれが先に切れるか（⑮の設計材料）。</div>
+          <div class="qi-write"></div>
+        </div>
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">N-3</span>術前・術後の患者さん対応で、今うまく回っていないと感じるところは？</div>
+          <div class="qi-aim">狙い：術前パス設計（W2）の一次情報。説明・同意・検査集約の現状。</div>
+          <div class="qi-write"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role r-re">
+      <div class="r-head"><span class="r-tag">受付</span><span class="r-title">受付 — 患者の声と院内空気の要</span></div>
+      <div class="r-body">
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">R-1</span>患者さんからよく聞く声（良い声も苦情も）を教えてください。</div>
+          <div class="qi-aim">狙い：患者フローの温度感。待ち時間・電話・予約の不満は導線改善の一次情報。</div>
+          <div class="qi-write"></div>
+        </div>
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">R-2</span>受付業務で一番時間を取られること・気を遣うことは何ですか？</div>
+          <div class="qi-aim">狙い：受付の負荷実態。電話対応・会計・カルテ起こしのどこが重いか（予約システム判断＝M2の材料）。</div>
+          <div class="qi-write"></div>
+        </div>
+        <div class="q-item">
+          <div class="qi-q"><span class="qi-num">R-3</span>常連の患者さんで「この方は必ず先生に」という方はいらっしゃいますか？</div>
+          <div class="qi-aim">狙い：<strong>院長個人に付いている患者層の把握</strong>（患者フロー承継の核心）。受付が一番知っている。</div>
+          <div class="qi-write"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 評価欄 -->
+  <section>
+    <h2><span class="sec-num">04</span>面談後の記入（面談者用・本人には見せない）</h2>
+
+    <div class="assess">
+      <h4>退職リスク評価 — 当日中に記入し④へ転記</h4>
+      <div class="a-row">
+        <div class="a-opt red"><span class="box"></span><span><strong>赤：</strong>辞意兆候あり／強い不満・不安が未解消 → <strong>48時間以内にフォロー面談を設定</strong></span></div>
+        <div class="a-opt yel"><span class="box"></span><span><strong>黄：</strong>不安・不満はあるが対話可能 → W2の二次面談対象</span></div>
+        <div class="a-opt grn"><span class="box"></span><span><strong>青：</strong>安定・前向き → 通常フォロー</span></div>
+      </div>
+      <div class="a-label">判断根拠（発言・様子）</div>
+      <div class="a-write"></div>
+      <div class="a-label">属人業務・キーパーソン所見（この人が抜けると何が止まるか）</div>
+      <div class="a-write"></div>
+      <div class="a-label">即実行候補◎（小さな改善要望）／持ち帰り事項と回答期日</div>
+      <div class="a-write"></div>
+      <div class="a-label">面談者メモ（事前のリスク仮説・特記事項）</div>
+      <div class="a-write"></div>
+    </div>
+
+    <div class="note">
+      <strong>転記先｜</strong>評価（赤/黄/青）・属人業務・即実行候補は④キーパーソンマップの該当列へ。オペ関連の所見（N-1〜3）は⑮医師リソース計画・術前パス設計のインプットへ。患者の声（R-1）はW2ボトルネック診断へ。
+    </div>
+  </section>
+
+  <footer>
+    <span>JMA PMI Playbook — P0起動パック ⑦</span>
+    <span>PMI_個別面談シート_テンプレート_v0.1 — 2026.07.02</span>
+  </footer>
+
+</div>
+</body>
+</html>

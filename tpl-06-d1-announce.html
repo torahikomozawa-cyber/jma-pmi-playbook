@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⑥ D1アナウンス台本＋従業員説明資料 テンプレート v0.1 — JMA PMI Playbook</title>
+<style>
+  :root{
+    --crimson:#8B1A10; --crimson-dark:#6B1208; --crimson-light:#B85248;
+    --off-white:#FAF6F1; --paper:#FDFBF7;
+    --yellow:#FFE96B; --yellow-soft:#FFF4B8;
+    --green-accent:#2D6A4F; --green-soft:#D8E8E0;
+    --blue-accent:#1E5A8A; --blue-soft:#E3EEF7;
+    --ink:#1A1A1A; --ink-soft:#4A4A4A;
+    --line:#D9D2C7; --line-soft:#ECE6DC;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:15px;}
+  body{
+    font-family:"Yu Gothic","游ゴシック","YuGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+    background:var(--off-white); color:var(--ink); line-height:1.75; margin:0; padding:0;
+    font-feature-settings:"palt";
+  }
+  .container{
+    max-width:720px; margin:0 auto; padding:34px 20px 70px;
+    background:var(--paper); min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.04);
+  }
+  .doc-header{border-bottom:3px solid var(--crimson); padding-bottom:18px; margin-bottom:20px;}
+  .doc-meta{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .doc-meta .badge{background:var(--crimson); color:var(--paper); padding:2px 10px;}
+  .doc-meta .version{background:var(--ink); color:var(--paper); padding:2px 9px;}
+  h1{
+    font-family:"Cambria","Georgia","Yu Mincho","游明朝",serif;
+    font-size:1.5rem; font-weight:600; line-height:1.35; margin:0 0 4px;
+  }
+  h1 .accent{color:var(--crimson);}
+  .doc-subtitle{font-size:0.82rem; color:var(--ink-soft); margin:0;}
+
+  /* skill note */
+  .skill-note{
+    background:var(--yellow-soft); border:1px dashed #C49B00; padding:12px 16px;
+    margin:14px 0 22px; font-size:0.8rem;
+  }
+  .skill-note .sn-label{
+    font-family:"Cambria","Georgia",serif; font-size:0.7rem; letter-spacing:0.13em;
+    color:#8A6B00; font-weight:700; margin-bottom:5px;
+  }
+  .skill-note p{margin:0 0 6px;}
+  .skill-note p:last-child{margin-bottom:0;}
+  .skill-note code{background:var(--paper); border:1px solid var(--line-soft); padding:0 5px; font-size:0.9em;}
+
+  /* variables */
+  .var{
+    background:var(--blue-soft); color:var(--blue-accent); font-weight:700;
+    padding:0 4px; border-radius:3px;
+  }
+
+  h2{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.2rem; font-weight:600;
+    border-left:5px solid var(--crimson); padding-left:11px; margin:34px 0 8px;
+  }
+  h2 .sec-num{font-family:"Cambria","Georgia",serif; color:var(--crimson); margin-right:7px;}
+  .sec-lead{font-size:0.82rem; color:var(--ink-soft); margin:0 0 14px; padding-left:16px;}
+  h3{
+    font-size:1rem; font-weight:700; margin:20px 0 8px; color:var(--crimson-dark);
+    padding-bottom:4px; border-bottom:1px dashed var(--line);
+  }
+
+  /* scenario blocks */
+  .scenario{
+    border:1px solid var(--line); margin:14px 0; background:var(--paper);
+  }
+  .scenario .sc-head{
+    padding:10px 16px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .scenario.sa .sc-head{background:var(--green-soft);}
+  .scenario.sb .sc-head{background:var(--blue-soft);}
+  .scenario.sc-c .sc-head{background:#F3DEDB;}
+  .scenario .sc-tag{
+    font-family:"Cambria","Georgia",serif; font-weight:700; font-size:0.8rem;
+    padding:2px 12px; color:var(--paper);
+  }
+  .scenario.sa .sc-tag{background:var(--green-accent);}
+  .scenario.sb .sc-tag{background:var(--blue-accent);}
+  .scenario.sc-c .sc-tag{background:var(--crimson);}
+  .scenario .sc-title{font-weight:700; font-size:0.92rem;}
+  .scenario .sc-body{padding:14px 18px;}
+
+  /* script style */
+  .script{
+    background:var(--off-white); border-left:4px solid var(--crimson-light);
+    padding:14px 18px; margin:10px 0; font-size:0.9rem;
+  }
+  .script .sp-part{
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; letter-spacing:0.12em;
+    color:var(--crimson); font-weight:700; display:block; margin:12px 0 4px;
+  }
+  .script .sp-part:first-child{margin-top:0;}
+  .script p{margin:0 0 8px;}
+  .script p:last-child{margin-bottom:0;}
+
+  /* QA */
+  .qa{border:1px solid var(--line); margin:10px 0; background:var(--paper);}
+  .qa .q{
+    background:var(--off-white); padding:9px 14px; font-weight:700; font-size:0.88rem;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .qa .q::before{content:"Q. "; color:var(--crimson); font-family:"Cambria","Georgia",serif;}
+  .qa .a{padding:10px 14px; font-size:0.86rem;}
+  .qa .a::before{content:"A. "; color:var(--green-accent); font-weight:700; font-family:"Cambria","Georgia",serif;}
+  .qa .a .branch{
+    display:block; font-size:0.8rem; margin-top:5px; padding:6px 10px; background:var(--off-white);
+  }
+  .qa .a .branch strong{color:var(--crimson-dark);}
+
+  /* NG list */
+  .donot{border:1px solid #E3C4C0; background:#F9EEEC; padding:14px 18px; margin:16px 0;}
+  .donot h4{margin:0 0 8px; font-size:0.95rem; color:var(--crimson-dark); font-family:"Cambria","Georgia","Yu Mincho",serif;}
+  .donot ul{margin:0; padding-left:0; list-style:none;}
+  .donot li{position:relative; padding:5px 0 5px 24px; font-size:0.85rem; border-bottom:1px dashed #E3C4C0;}
+  .donot li:last-child{border-bottom:none;}
+  .donot li::before{content:"✕"; position:absolute; left:2px; top:5px; color:var(--crimson); font-weight:700;}
+
+  /* tables */
+  .table-wrap{overflow-x:auto; margin:10px 0; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; font-size:0.83rem; background:var(--paper);}
+  th,td{padding:9px 12px; text-align:left; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  th{background:var(--crimson); color:var(--paper); font-weight:600; font-size:0.78rem;}
+  td.row-label{background:var(--off-white); font-weight:700; border-right:1px solid var(--line); white-space:nowrap;}
+  .cell-keep{background:var(--green-soft);}
+  .cell-change{background:var(--yellow-soft);}
+
+  .note{
+    background:var(--blue-soft); border-left:4px solid var(--blue-accent);
+    padding:11px 15px; margin:14px 0; font-size:0.82rem;
+  }
+  .note strong{color:var(--blue-accent);}
+
+  .placeholder{color:#8A6B00; background:var(--yellow-soft); padding:0 4px; font-weight:700;}
+
+  .page-break{border-top:3px double var(--crimson); margin:40px 0 30px; position:relative;}
+  .page-break::after{
+    content:"✂ 配布時はここから下を印刷"; position:absolute; top:-12px; left:50%;
+    transform:translateX(-50%); background:var(--paper); padding:0 12px;
+    font-size:0.72rem; color:var(--crimson); font-family:"Cambria","Georgia",serif;
+  }
+
+  footer{
+    margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+  @media print{
+    .container{box-shadow:none; padding:16px;}
+    .skill-note{display:none;}
+    section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">P0起動パック ⑥</span>
+      <span class="version">テンプレート v0.1</span>
+    </div>
+    <h1>D1アナウンス台本 ＋ <span class="accent">従業員説明資料</span></h1>
+    <p class="doc-subtitle">承継初日の全体アナウンスで使う台本・想定問答・配布資料。院長シナリオA/B/C全収録版。</p>
+  </header>
+
+  <div class="skill-note">
+    <div class="sn-label">⚙ スキル生成時のルール（このボックスは配布版から削除）</div>
+    <p>① Q1回答に応じ、<strong>該当シナリオのみ残して他2つを削除</strong>する。</p>
+    <p>② 差し込み変数：<code>【医院名】【前院長名】【本部担当者名】【D1日付】【滞在計画】【新院長候補名】【最終勤務・移行時期】</code>。バッチ質問の回答で置換。</p>
+    <p>③ 未回答項目は <span class="placeholder">■要確認：Q番号</span> のまま出力し、生成を止めない。</p>
+    <p>④ Q19（売り手の既存の口約束）と矛盾しないか、生成後に必ず突合する。</p>
+  </div>
+
+  <!-- 01 進行 -->
+  <section>
+    <h2><span class="sec-num">01</span>当日の進行（共通）</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:22%;">項目</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td class="row-label">タイミング</td><td><span class="var">【D1日付】</span>の朝、診療開始前（15分確保）。全員が直接聞ける時間に設定。欠勤者には当日中に個別連絡。</td></tr>
+          <tr><td class="row-label">登壇順</td><td><strong>前院長が先、本部担当者が後。</strong>順番を逆にしない（スタッフの信頼は前院長にあるため、その口から語られることが最初の安心になる）。</td></tr>
+          <tr><td class="row-label">所要</td><td>前院長3分＋本部担当者5分＋質疑5分。長くしない。</td></tr>
+          <tr><td class="row-label">配布物</td><td>本資料の後半（従業員説明資料）＋⑧スタッフ向けFAQ。話した内容が紙で残る状態にする。</td></tr>
+          <tr><td class="row-label">終了後</td><td>個別面談（⑦）の日程を当日中に案内。「話を聞く場が別にある」ことを示す。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 02 台本 -->
+  <section>
+    <h2><span class="sec-num">02</span>アナウンス台本（シナリオ別）</h2>
+    <p class="sec-lead">構成は3点固定：〈① 事実 → ② 当面変えない → ③ 自分の役割と滞在計画〉。この順番を崩さない。</p>
+
+    <h3>前院長パート（共通・全シナリオ）</h3>
+    <div class="script">
+      <span class="sp-part">前院長の言葉（3分・要旨、本人の言葉で言い換えて可）</span>
+      <p>「皆さんに大切な報告があります。<span class="var">【医院名】</span>は、このたび日本医療連合（JMA）のグループとして、新しい体制で診療を続けていくことになりました。」</p>
+      <p>「これは閉院や縮小の話ではありません。むしろ、この医院の診療を長く続けていくために、私が自分で決めたことです。」</p>
+      <p>「皆さんの雇用と待遇はこれまでどおりです。今日から一緒にやっていく<span class="var">【本部担当者名】</span>さんを紹介します。」</p>
+    </div>
+
+    <!-- Scenario A -->
+    <div class="scenario sa">
+      <div class="sc-head"><span class="sc-tag">シナリオ A</span><span class="sc-title">院長継続 — 経営のみJMAへ</span></div>
+      <div class="sc-body">
+        <div class="script">
+          <span class="sp-part">① 事実</span>
+          <p>「<span class="var">【本部担当者名】</span>と申します。JMA（日本医療連合）は、後継ぎ問題などで続けることが難しくなったクリニックを承継し、地域の医療を50年、100年先までつないでいくことを使命とする医療グループです。<span class="var">【医院名】</span>の<strong>経営面・事務面を私たちが担い、診療はこれまでどおり<span class="var">【前院長名】</span>先生が続けます</strong>。」</p>
+          <span class="sp-part">② 当面変えない</span>
+          <p>「皆さんの給与・雇用・シフト・仕事のやり方は、<strong>当面変えません</strong>。変える時は必ず事前に説明し、相談してから決めます。今日から何かが急に変わることはありません。」</p>
+          <span class="sp-part">③ 自分の役割と滞在計画</span>
+          <p>「私の仕事は、先生が診療に集中できるように、経営や事務の負担を引き受けることです。<span class="var">【滞在計画】</span>の予定でこちらに来ます。最初の1〜2週間は、皆さんの仕事ぶりを見せてもらいながら、お一人ずつお話を聞かせてください。」</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario B -->
+    <div class="scenario sb">
+      <div class="sc-head"><span class="sc-tag">シナリオ B</span><span class="sc-title">段階移行 — 稼働縮小→非常勤化</span></div>
+      <div class="sc-body">
+        <div class="script">
+          <span class="sp-part">① 事実</span>
+          <p>「<span class="var">【本部担当者名】</span>と申します。<span class="var">【前院長名】</span>先生は<strong>これからも診療を続けられます</strong>。時期を見て勤務日を少しずつ調整しながら（<span class="var">【最終勤務・移行時期】</span>頃を目安）、並行して診療体制を厚くしていきます。先生がいなくなる話ではなく、<strong>体制を増やしていく話</strong>です。」</p>
+          <span class="sp-part">② 当面変えない</span>
+          <p>「皆さんの給与・雇用・シフト・仕事のやり方は、<strong>当面変えません</strong>。体制の変更がある時は、必ず事前に説明してから進めます。」</p>
+          <span class="sp-part">③ 自分の役割と滞在計画</span>
+          <p>「私の役割は、先生の負担を減らしながら医院の体制を整えることです。<span class="var">【滞在計画】</span>で現場に入ります。まずは皆さんの現在の仕事を教えてください。変えるためではなく、知るためです。」</p>
+        </div>
+        <div class="note"><strong>Bの追加注意｜</strong>移行時期を断定的に言い切らない（「〜頃を目安に、状況を見ながら」）。時期が独り歩きすると患者・スタッフ双方に「先生はもういなくなる」と誤解が広がる。</div>
+      </div>
+    </div>
+
+    <!-- Scenario C -->
+    <div class="scenario sc-c">
+      <div class="sc-head"><span class="sc-tag">シナリオ C</span><span class="sc-title">退場 — 引退・後任確保</span></div>
+      <div class="sc-body">
+        <div class="script">
+          <span class="sp-part">① 事実</span>
+          <p>「<span class="var">【本部担当者名】</span>と申します。<span class="var">【前院長名】</span>先生は<span class="var">【最終勤務・移行時期】</span>まで診療を続けられ、その後は<strong>新しい院長を迎えて診療を継続します</strong>（後任：<span class="var">【新院長候補名】</span><span class="placeholder">■要確認：Q12（未確定の場合この一文を削除し「現在選定を進めています。決まり次第、最初に皆さんへお伝えします」に差し替え）</span>）。引き継ぎの期間は先生と新体制が並走します。」</p>
+          <span class="sp-part">② 当面変えない</span>
+          <p>「皆さんの給与・雇用・シフト・仕事のやり方は、<strong>当面変えません</strong>。院長が代わっても、この医院の日々の運営を支えているのは皆さんです。それを変えるつもりはありません。」</p>
+          <span class="sp-part">③ 自分の役割と滞在計画</span>
+          <p>「私の役割は、先生から新体制への引き継ぎを、患者さんにも皆さんにも負担がない形で進めることです。<span class="var">【滞在計画】</span>で現場に入ります。お一人ずつ、今の仕事と気になっていることを聞かせてください。」</p>
+        </div>
+        <div class="note"><strong>Cの追加注意｜</strong>後任未定のまま迎えるD1では「決まり次第、最初に皆さんへ伝える」という<strong>情報の優先順位の約束</strong>が最大の安心材料になる。患者より先・掲示より先に、スタッフへ。これは必ず守る（破ると信頼が二度と戻らない）。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 想定問答 -->
+  <section>
+    <h2><span class="sec-num">03</span>想定問答10問（質疑・面談・立ち話用）</h2>
+    <p class="sec-lead">回答は全員が同じトーンで。答えられない質問は「確認して○日までに答えます」と期日を切って持ち帰る。</p>
+
+    <div class="qa"><div class="q">給与は変わりますか？</div><div class="a">変わりません。現在の条件をそのまま引き継ぎます。契約書の名義（会社名）が変わる手続きが後日ありますが、中身の条件は同じです。その際は書面で説明します。</div></div>
+    <div class="qa"><div class="q">雇用は続きますか？リストラはありますか？</div><div class="a">全員に続けていただく前提です。人を減らすための承継ではなく、体制を続けて厚くするための承継です。</div></div>
+    <div class="qa"><div class="q">先生（院長）はどうなるんですか？</div><div class="a"><span class="branch"><strong>A：</strong>これまでどおり診療を続けます。変わるのは経営・事務面の担当だけです。</span><span class="branch"><strong>B：</strong>診療は続けます。時期を見て勤務日を調整していきますが、急にいなくなることはありません。</span><span class="branch"><strong>C：</strong><span class="var">【最終勤務・移行時期】</span>までは診療を続け、新しい院長へ引き継ぎます。引き継ぎ期間は並走します。</span></div></div>
+    <div class="qa"><div class="q">シフトや勤務時間は変わりますか？</div><div class="a">当面変えません。将来、診療体制の変化に合わせて調整が必要になる場合は、必ず事前に相談してから決めます。一方的に変えることはありません。</div></div>
+    <div class="qa"><div class="q">仕事のやり方やシステム（カルテ等）は変わりますか？</div><div class="a">当面変えません。最初の1〜2週間は今のやり方を教えていただく期間です。変更を検討する時は、現場の皆さんと一緒に決めます。</div></div>
+    <div class="qa"><div class="q">JMA（日本医療連合）ってどんな会社ですか？</div><div class="a">後継ぎ問題などで続けることが難しくなったクリニックを承継し、地域の医療を50年、100年先までつないでいくことを使命とする医療グループです。将来的には1000を超えるクリニックをお預かりし、日本で一番規模が大きく、質も一番高い医療グループになることを目指しています。そしてこの医院では、皆さんと一緒に<strong>「地域で一番の眼科」</strong>を目指します。診療は医師と皆さんが担い、私たちは経営・事務・体制づくりの面から支えます。</div></div>
+    <div class="qa"><div class="q">評価や昇給は誰がどう決めるようになりますか？</div><div class="a">当面は現行どおりです。評価制度をつくり直す場合は、ずっと先の話ですし、その時は必ず内容を事前に共有して意見を聞きます。</div></div>
+    <div class="qa"><div class="q">患者さんに聞かれたら何て答えればいいですか？</div><div class="a">「経営体制が変わりますが、診療はこれまでどおり続きます」でお願いします。詳しい聞かれ方への答えは患者さま向けFAQ（配布済み）のとおりで統一してください。答えにくい質問は受付から<span class="var">【本部担当者名】</span>へ回してください。</div></div>
+    <div class="qa"><div class="q">どうして承継（売却）することになったんですか？</div><div class="a"><span class="var">【前院長名】</span>先生が、この医院の診療を将来にわたって続けていくために選ばれた道です。詳しい経緯は先生の言葉のとおりで、後ろ向きの理由ではありません。</div></div>
+    <div class="qa"><div class="q">困ったこと・気になることは誰に相談すればいいですか？</div><div class="a">診療のことはこれまでどおり院長へ。勤務・体制・今回の承継に関することは<span class="var">【本部担当者名】</span>へ、直接いつでもどうぞ。個別面談の場もこの1週間で全員分つくります。</div></div>
+
+    <div class="donot">
+      <h4>言ってはいけないこと（登壇者・面談者共通）</h4>
+      <ul>
+        <li>給与・昇給・配置の<strong>個別の約束</strong>（「あなたの給与は上げます」等）— 面談でも同様</li>
+        <li>システム・シフト変更の<strong>予告</strong>（「いずれ〇〇に変えます」）— 検討中でも言わない</li>
+        <li>移行・退任時期の<strong>断定</strong>（シナリオB/C）— 「目安」「状況を見ながら」を必ず添える</li>
+        <li>前院長や現状オペレーションへの<strong>否定的な評価</strong>（「今までのやり方は非効率で…」）</li>
+        <li>他のスタッフの面談内容への言及</li>
+        <li>買収金額・契約条件に関する一切</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ✂ -->
+  <div class="page-break"></div>
+
+  <!-- 04 従業員説明資料 -->
+  <section>
+    <h2><span class="sec-num">04</span>従業員説明資料（配布用・A4想定）</h2>
+    <p class="sec-lead">アナウンス後に配布。話した内容を紙で残す。1枚に収める。</p>
+
+    <h3><span class="var">【医院名】</span> 新体制のご案内（<span class="var">【D1日付】</span>）</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:50%;">🟢 変わらないこと</th><th>🟡 変わること</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="cell-keep">皆さんの<strong>給与・雇用・勤務条件</strong>（現行条件を継続）</td>
+            <td class="cell-change">経営・事務の担当（JMAが担います）</td>
+          </tr>
+          <tr>
+            <td class="cell-keep">日々の<strong>シフト・仕事のやり方・使うシステム</strong></td>
+            <td class="cell-change">運営会社名（契約書等の名義。後日書面でご説明）</td>
+          </tr>
+          <tr>
+            <td class="cell-keep">診療の内容・患者さまへの向き合い方</td>
+            <td class="cell-change">週1回の朝会（15分）と月1回の振り返りを新設予定</td>
+          </tr>
+          <tr>
+            <td class="cell-keep">【シナリオ別に1行差し込み：A=院長の診療体制／B=先生の診療（勤務日は段階調整）／C=<span class="var">【最終勤務・移行時期】</span>までの先生の診療】</td>
+            <td class="cell-change">相談窓口の追加（下記）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:26%;">体制</th><th>担当</th></tr></thead>
+        <tbody>
+          <tr><td class="row-label">診療</td><td>【シナリオ別：A/B=<span class="var">【前院長名】</span>先生（これまでどおり）／C=<span class="var">【前院長名】</span>先生 → <span class="var">【新院長候補名】</span>へ引き継ぎ】</td></tr>
+          <tr><td class="row-label">運営・事務</td><td>JMA（日本医療連合）／現場責任者：<span class="var">【本部担当者名】</span>（<span class="var">【滞在計画】</span>で在院）</td></tr>
+          <tr><td class="row-label">Web・お知らせ</td><td>ホームページやGoogleの情報は、JMAのグロースチームが順次更新します（皆さんの作業はありません）</td></tr>
+          <tr><td class="row-label">相談窓口</td><td>診療のこと → 院長／勤務・体制・今回の件 → <span class="var">【本部担当者名】</span>（直接・いつでも）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>これからの進め方（最初の3ヶ月）</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:26%;">時期</th><th>やること</th></tr></thead>
+        <tbody>
+          <tr><td class="row-label">最初の1〜2週間</td><td>皆さんの今の仕事を教えていただく期間。お一人ずつ面談の時間をいただきます（15〜30分）。<strong>何かを変える期間ではありません。</strong></td></tr>
+          <tr><td class="row-label">1ヶ月目〜</td><td>週1回の朝会スタート。改善は小さいものから、皆さんと相談しながら1つずつ。</td></tr>
+          <tr><td class="row-label">2〜3ヶ月目</td><td>診療体制を少しずつ厚くしていきます（手術体制の整備など）。詳細はその都度ご説明します。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note" style="margin-top:16px;">
+      <strong>お願い｜</strong>患者さまへのご案内は、配布のFAQのとおり「経営体制が変わりますが、診療はこれまでどおり続きます」で統一をお願いします。ご不明な点・ご不安な点は、面談を待たずいつでも<span class="var">【本部担当者名】</span>までお声がけください。
+    </div>
+  </section>
+
+  <footer>
+    <span>JMA PMI Playbook — P0起動パック ⑥</span>
+    <span>PMI_D1台本と従業員説明資料_テンプレート_v0.1 — 2026.07.02</span>
+  </footer>
+
+</div>
+</body>
+</html>

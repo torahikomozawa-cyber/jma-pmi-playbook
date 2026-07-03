@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⑭ キックオフパック テンプレート v0.1 — JMA PMI Playbook</title>
+<style>
+  :root{
+    --crimson:#8B1A10; --crimson-dark:#6B1208; --crimson-light:#B85248;
+    --off-white:#FAF6F1; --paper:#FDFBF7;
+    --yellow:#FFE96B; --yellow-soft:#FFF4B8;
+    --green-accent:#2D6A4F; --green-soft:#D8E8E0;
+    --blue-accent:#1E5A8A; --blue-soft:#E3EEF7;
+    --ink:#1A1A1A; --ink-soft:#4A4A4A;
+    --line:#D9D2C7; --line-soft:#ECE6DC;
+  }
+  *{box-sizing:border-box;}
+  html{font-size:15px;}
+  body{
+    font-family:"Yu Gothic","游ゴシック","YuGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+    background:var(--off-white); color:var(--ink); line-height:1.75; margin:0; padding:0;
+    font-feature-settings:"palt";
+  }
+  .container{
+    max-width:720px; margin:0 auto; padding:34px 20px 70px;
+    background:var(--paper); min-height:100vh; box-shadow:0 0 40px rgba(0,0,0,0.04);
+  }
+  .doc-header{border-bottom:3px solid var(--crimson); padding-bottom:18px; margin-bottom:20px;}
+  .doc-meta{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    letter-spacing:0.05em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .doc-meta .badge{background:var(--crimson); color:var(--paper); padding:2px 10px;}
+  .doc-meta .version{background:var(--ink); color:var(--paper); padding:2px 9px;}
+  h1{
+    font-family:"Cambria","Georgia","Yu Mincho","游明朝",serif;
+    font-size:1.5rem; font-weight:600; line-height:1.35; margin:0 0 4px;
+  }
+  h1 .accent{color:var(--crimson);}
+  .doc-subtitle{font-size:0.82rem; color:var(--ink-soft); margin:0;}
+
+  .skill-note{
+    background:var(--yellow-soft); border:1px dashed #C49B00; padding:12px 16px;
+    margin:14px 0 22px; font-size:0.8rem;
+  }
+  .skill-note .sn-label{
+    font-family:"Cambria","Georgia",serif; font-size:0.7rem; letter-spacing:0.13em;
+    color:#8A6B00; font-weight:700; margin-bottom:5px;
+  }
+  .skill-note p{margin:0 0 6px;}
+  .skill-note p:last-child{margin-bottom:0;}
+  .skill-note code{background:var(--paper); border:1px solid var(--line-soft); padding:0 5px; font-size:0.9em;}
+
+  .var{background:var(--blue-soft); color:var(--blue-accent); font-weight:700; padding:0 4px; border-radius:3px;}
+  .placeholder{color:#8A6B00; background:var(--yellow-soft); padding:0 4px; font-weight:700;}
+
+  h2{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.2rem; font-weight:600;
+    border-left:5px solid var(--crimson); padding-left:11px; margin:34px 0 8px;
+  }
+  h2 .sec-num{font-family:"Cambria","Georgia",serif; color:var(--crimson); margin-right:7px;}
+  .sec-lead{font-size:0.82rem; color:var(--ink-soft); margin:0 0 14px; padding-left:16px;}
+  h3{
+    font-size:1rem; font-weight:700; margin:20px 0 8px; color:var(--crimson-dark);
+    padding-bottom:4px; border-bottom:1px dashed var(--line);
+  }
+
+  /* vision */
+  .vision{
+    background:linear-gradient(160deg,var(--crimson) 0%,var(--crimson-dark) 100%);
+    color:var(--paper); padding:26px 26px 22px; margin:14px 0;
+  }
+  .vision .v-eyebrow{
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; letter-spacing:0.2em;
+    text-transform:uppercase; opacity:0.85; margin-bottom:10px;
+  }
+  .vision .v-main{
+    font-family:"Cambria","Georgia","Yu Mincho",serif; font-size:1.25rem; font-weight:600;
+    line-height:1.7; margin:0 0 14px;
+  }
+  .vision p{font-size:0.9rem; margin:0 0 10px; opacity:0.95;}
+  .vision p:last-child{margin-bottom:0;}
+  .vision .v-clinic{
+    background:rgba(255,255,255,0.12); border-left:4px solid var(--yellow);
+    padding:12px 16px; margin-top:14px; font-size:0.95rem; font-weight:600;
+  }
+
+  /* gears */
+  .gear-strip{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0;}
+  .gear{
+    flex:1; min-width:126px; background:var(--off-white); border:1px solid var(--line);
+    padding:11px 12px; font-size:0.78rem;
+  }
+  .gear .g-period{font-family:"Cambria","Georgia",serif; color:var(--crimson); font-weight:700; font-size:0.74rem; display:block;}
+  .gear .g-word{font-weight:700; font-size:0.95rem; display:block; margin:1px 0;}
+  .gear .g-desc{color:var(--ink-soft); font-size:0.74rem; line-height:1.55; display:block;}
+
+  /* tables */
+  .table-wrap{overflow-x:auto; margin:10px 0; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; font-size:0.83rem; background:var(--paper);}
+  th,td{padding:9px 12px; text-align:left; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  th{background:var(--crimson); color:var(--paper); font-weight:600; font-size:0.78rem;}
+  td.row-label{background:var(--off-white); font-weight:700; border-right:1px solid var(--line); white-space:nowrap;}
+  tbody tr:hover{background:var(--off-white);}
+  .cell-fill{background:var(--yellow-soft);}
+
+  /* request blocks */
+  .req{border:1px solid var(--line); margin:14px 0; background:var(--paper);}
+  .req .rq-head{
+    padding:10px 16px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; background:var(--off-white);
+  }
+  .req .rq-tag{
+    font-family:"Cambria","Georgia",serif; font-weight:700; font-size:0.78rem;
+    padding:2px 12px; color:var(--paper); background:var(--crimson);
+  }
+  .req .rq-title{font-weight:700; font-size:0.92rem;}
+  .req .rq-body{padding:10px 16px 12px;}
+  .req ul{margin:0; padding-left:0; list-style:none;}
+  .req li{position:relative; padding:7px 0 7px 22px; font-size:0.87rem; border-bottom:1px dashed var(--line-soft);}
+  .req li:last-child{border-bottom:none;}
+  .req li::before{content:"□"; position:absolute; left:0; top:6px; color:var(--crimson); font-weight:700; font-size:0.95rem;}
+  .req li .why{display:block; font-size:0.76rem; color:var(--ink-soft);}
+  .req li .sc-only{
+    display:inline-block; font-size:0.68rem; font-weight:700; padding:0 7px;
+    border-radius:8px; background:var(--blue-soft); color:var(--blue-accent); margin-left:5px; vertical-align:1px;
+  }
+
+  /* donot */
+  .donot{border:2px solid var(--crimson); background:#F9EEEC; padding:18px 20px; margin:16px 0;}
+  .donot h3{
+    margin:0 0 10px; font-size:1.05rem; color:var(--crimson-dark);
+    font-family:"Cambria","Georgia","Yu Mincho",serif; border:none; padding:0;
+  }
+  .donot ul{margin:0; padding-left:0; list-style:none;}
+  .donot li{position:relative; padding:6px 0 6px 24px; font-size:0.88rem; border-bottom:1px dashed #E3C4C0;}
+  .donot li:last-child{border-bottom:none;}
+  .donot li::before{content:"✕"; position:absolute; left:2px; top:6px; color:var(--crimson); font-weight:700;}
+  .donot li strong{color:var(--crimson-dark);}
+  .donot .d-note{font-size:0.8rem; color:var(--ink-soft); margin:10px 0 0;}
+
+  /* mtg templates */
+  .mtg-tpl{
+    background:var(--off-white); border:1px solid var(--line); border-left:4px solid var(--blue-accent);
+    padding:12px 16px; margin:10px 0; font-size:0.84rem;
+  }
+  .mtg-tpl .mt-title{font-weight:700; color:var(--blue-accent); margin-bottom:6px; font-size:0.88rem;}
+  .mtg-tpl ol{margin:0; padding-left:20px;}
+  .mtg-tpl li{padding:2px 0;}
+
+  .note{
+    background:var(--blue-soft); border-left:4px solid var(--blue-accent);
+    padding:11px 15px; margin:14px 0; font-size:0.82rem;
+  }
+  .note strong{color:var(--blue-accent);}
+
+  .exit-note{
+    background:var(--green-soft); border-left:4px solid var(--green-accent);
+    padding:11px 15px; font-size:0.83rem; margin:12px 0;
+  }
+  .exit-note strong{color:var(--green-accent);}
+
+  footer{
+    margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
+    font-family:"Cambria","Georgia",serif; font-size:0.72rem; color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+  @media print{
+    .container{box-shadow:none; padding:16px;}
+    .skill-note{display:none;}
+    section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">P0起動パック ⑭</span>
+      <span class="version">テンプレート v0.1</span>
+    </div>
+    <h1>キックオフパック <span class="accent">進め方を握る1冊</span></h1>
+    <p class="doc-subtitle">キックオフMTG（<span class="var">【キックオフ日】</span>・60分）用。出席：<span class="var">【前院長名】</span>先生・現場リーダー・キーパーソン・JMA。</p>
+  </header>
+
+  <div class="skill-note">
+    <div class="sn-label">⚙ スキル生成時のルール（配布版から削除）</div>
+    <p>① シナリオ（Q1）で「02 依頼事項」の前院長ブロックを出し分け。Q11の協力可否回答を反映し、否の項目は<code>要交渉</code>フラグ付きで残す。</p>
+    <p>② 変数：<code>【医院名】【前院長名】【本部担当者名】【キックオフ日】【D1日付】【朝会曜日】【定例曜日】【最終勤務・移行時期】</code>。Q34未回答なら曜日は<code>○曜</code>で出力。</p>
+    <p>③ 「06 変更トリガー表」は枠のみ生成し、W2に現場で数値を記入する（事前に埋めない）。</p>
+    <p>④ ビジョン（01）の数字込み表現は院長・キーパーソン向け資料である本パック限定。患者向け・院外資料には転用しない。</p>
+  </div>
+
+  <!-- 01 ビジョン -->
+  <section>
+    <h2><span class="sec-num">01</span>私たちが目指すもの</h2>
+
+    <div class="vision">
+      <div class="v-eyebrow">Japan Medical Alliance — Vision</div>
+      <p class="v-main">1000を超えるクリニックを承継し、<br>地域の医療を50年、100年先へつなぐ。</p>
+      <p>日本医療連合（JMA）は、後継ぎ問題などで続けることが難しくなったクリニックを承継し、診療を未来へつないでいく医療グループです。日本で一番規模が大きく、質も一番高い医療グループになることを目指しています。</p>
+      <p>承継は「終わり」ではなく「続けるための選択」です。<span class="var">【医院名】</span>は、その大切な一院です。</p>
+      <div class="v-clinic">この医院で目指すこと — 皆さんと一緒に「地域で一番の眼科」をつくる。<br><span style="font-weight:400; font-size:0.84rem;">眼を治すことは、笑顔をつくること。</span></div>
+    </div>
+    <div class="note"><strong>使い分け｜</strong>「地域で一番」「日本一」等の表現は院内限定（本パック・スタッフ向け資料まで）。患者向け・院外掲示・HPには使わない。</div>
+  </section>
+
+  <!-- 02 進め方 -->
+  <section>
+    <h2><span class="sec-num">02</span>最初の100日の進め方</h2>
+    <p class="sec-lead">時間ではなく「状態」で進みます。各段の合格条件を満たしてから次へ。</p>
+
+    <div class="gear-strip">
+      <div class="gear"><span class="g-period">D1–W1</span><span class="g-word">掌握</span><span class="g-desc">今の仕事を教えていただく。全員と個別面談。何も変えない。</span></div>
+      <div class="gear"><span class="g-period">W2</span><span class="g-word">診断</span><span class="g-desc">詰まりの特定。「何をどの条件で変えるか」を一緒に決める。</span></div>
+      <div class="gear"><span class="g-period">W3–M1</span><span class="g-word">初手</span><span class="g-desc">朝会・定例スタート。小さな改善を1つだけ。</span></div>
+      <div class="gear"><span class="g-period">M2</span><span class="g-word">起動</span><span class="g-desc">手術体制と紹介の流れを立ち上げる。</span></div>
+      <div class="gear"><span class="g-period">M3</span><span class="g-word">定着</span><span class="g-desc">仕組みで回る状態に。次の3ヶ月の計画へ。</span></div>
+    </div>
+
+    <div class="exit-note"><strong>100日後にできていたい状態｜</strong>① スタッフ全員が安心して働き続けている ② 手術が毎月安定して行われている ③ JMA担当が毎日いなくても医院が回っている。</div>
+  </section>
+
+  <!-- 03 依頼事項 -->
+  <section>
+    <h2><span class="sec-num">03</span>お願いしたいこと（役割別）</h2>
+    <p class="sec-lead">キックオフの場で1項目ずつ確認し、□にチェックを入れて合意とします。</p>
+
+    <div class="req">
+      <div class="rq-head"><span class="rq-tag">前院長</span><span class="rq-title"><span class="var">【前院長名】</span>先生へ</span></div>
+      <div class="rq-body">
+        <ul>
+          <li>D1朝の全体アナウンスへの同席と、先生ご自身の言葉での第一声<span class="why">スタッフの安心は先生の言葉から始まります（台本は事前に読み合わせ済み）</span></li>
+          <li>最重要紹介元への同伴挨拶（W1中・上位1〜2件）<span class="why">紹介関係は先生個人への信頼。同伴が承継の橋になります</span></li>
+          <li><strong>手術適応クライテリアの共有と、オペ候補患者のリストアップ開始（W1中）</strong><span class="why">M2の手術開始から逆算すると、患者確保はいま始める必要があります。診察で該当患者が出たら候補リストへ</span></li>
+          <li>患者告知（掲示・案内文）へのお名前の使用<span class="why">「院長からのお知らせ」の形が患者さまに最も伝わります</span></li>
+          <li><span class="sc-only">B・C</span>移行スケジュール（<span class="var">【最終勤務・移行時期】</span>目安）の認識合わせと、引継ぎ診療へのご協力<span class="why">時期は断定せず「目安」として院内外に伝えます</span></li>
+          <li><span class="sc-only">C</span>後任院長への診療引継ぎ（カルテ申し送り・並走期間）<span class="why">患者さまの離脱を防ぐ最大の要素です</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req">
+      <div class="rq-head"><span class="rq-tag">現場リーダー</span><span class="rq-title">事務長・受付リーダーへ</span></div>
+      <div class="rq-body">
+        <ul>
+          <li>勤務表・発注先リスト・院内ルールなど「今のやり方」の資料出し<span class="why">変えるためではなく、正しく引き継ぐため</span></li>
+          <li>個別面談（全員・W1中）の日程調整<span class="why">1人15〜30分。診療に支障のない枠で</span></li>
+          <li>患者さまへのご案内の統一（配布FAQのとおり）<span class="why">「診療はこれまでどおり」で全員同じ答えに</span></li>
+          <li>保険切替日（<span class="placeholder">■要確認：Q3</span>）前後の会計・受付オペへの協力<span class="why">請求先が変わる日だけ特別対応が要ります。事前に手順を一緒に確認します</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="req">
+      <div class="rq-head"><span class="rq-tag">キーパーソン</span><span class="rq-title">ORT・看護師の皆さんへ</span></div>
+      <div class="rq-body">
+        <ul>
+          <li>検査・オペ日の「今のやり方」を教えてください（W1〜W2）<span class="why">現場の実態が全ての設計の出発点です</span></li>
+          <li>術前検査の流れづくりへの参画（W2〜）<span class="why">オペ予約→術前検査→手術日の連鎖を、実務目線で一緒に組みます</span></li>
+          <li>検査の教え合い（クロストレーニング）の相談（M2〜）<span class="why">お一人に負荷が集中しない体制のため。無理のない範囲で</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note"><strong>JMA（<span class="var">【本部担当者名】</span>）が引き受けること｜</strong>経営・事務負担の引き受け／Web・Googleの情報更新（グロースチーム）／保険・契約手続き（コーポレートチーム）／体制づくりと採用／週次・月次の運営レビュー。<strong>現場の負担を増やすためではなく、減らすために来ています。</strong></div>
+  </section>
+
+  <!-- 04 会議体 -->
+  <section>
+    <h2><span class="sec-num">04</span>これからの定例</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:22%;">会議</th><th style="width:26%;">出席・頻度</th><th>やること</th></tr></thead>
+        <tbody>
+          <tr><td class="row-label">スタッフ朝会</td><td>全員／週1（<span class="var">【朝会曜日】</span>）15分</td><td>数字3つ＋今週の1件。連絡と共有のみ、議論しない。</td></tr>
+          <tr><td class="row-label">院長定例</td><td>院長＋JMA／週1（<span class="var">【定例曜日】</span>）30分 ※M2〜隔週</td><td>数字レビュー・変更の意思決定・オペ患者パイプライン確認。</td></tr>
+          <tr><td class="row-label">月次レビュー</td><td>院内＋JMA本部報告／月1・60分</td><td>KPI達成状況・翌月アクション確定。</td></tr>
+          <tr><td class="row-label">100日レビュー</td><td>全体／Day100・90分</td><td>3ヶ月総括と次期計画の合意。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>そのまま使える雛形</h3>
+    <div class="mtg-tpl">
+      <div class="mt-title">朝会フォーマット（15分）</div>
+      <ol>
+        <li>数字3つ：昨週の患者数／予約数／オペ関連1つ（候補・予約・術前）— 1分</li>
+        <li>今週の1件：共有事項または今週試すこと1つ — 3分</li>
+        <li>各自ひとこと（困りごと・気づき）— 8分</li>
+        <li>確認事項（掲示・FAQ更新など）— 3分</li>
+      </ol>
+    </div>
+    <div class="mtg-tpl">
+      <div class="mt-title">院長定例アジェンダ（30分）</div>
+      <ol>
+        <li>週次KPI（患者数・再診率・オペパイプライン3段階）— 8分</li>
+        <li>変更トリガー表の照合（到達項目の有無）— 5分</li>
+        <li>意思決定事項（変更・採用・投資）— 10分</li>
+        <li>面談・スタッフ状況の共有（要配慮のみ）— 5分</li>
+        <li>次週の予定・現地入り確認 — 2分</li>
+      </ol>
+    </div>
+    <div class="mtg-tpl">
+      <div class="mt-title">月次報告の型（JMA本部向け・A4 1枚）</div>
+      <ol>
+        <li>結論（順調／要注意＋一言）</li>
+        <li>KPI：患者数・再診率・オペ（候補→予約→実施）・退職リスク（赤黄青の人数のみ）</li>
+        <li>今月やったこと3行／来月やること3行</li>
+        <li>本部への依頼・エスカレーション（医師リソース・投資判断等）</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 05 やらないこと -->
+  <section>
+    <h2><span class="sec-num">05</span>最初の100日で「やらないこと」の約束</h2>
+    <div class="donot">
+      <h3>私たちはこの100日、以下に手を付けません</h3>
+      <ul>
+        <li><strong>給与・評価制度の変更</strong> — 現行条件を維持します。制度を見直す時は必ず事前に内容を共有し、意見を聞いてから</li>
+        <li><strong>カルテ・レセコン等システムの入れ替え</strong> — 今のやり方を覚えることが先です</li>
+        <li><strong>一方的なシフト・配置の変更</strong> — 変える時は事前に相談してから</li>
+        <li><strong>リストラ・人員削減</strong> — 体制を続けて厚くするための承継です</li>
+        <li><strong>予告なしの運用変更</strong> — 変更は下の「トリガー表」に該当してから、定例で決めて実行します</li>
+      </ul>
+      <p class="d-note">この宣言はスタッフの皆さんへの約束です。守れなくなる事情が生じた場合は、実行前に必ず全員へ説明します。</p>
+    </div>
+  </section>
+
+  <!-- 06 トリガー表 -->
+  <section>
+    <h2><span class="sec-num">06</span>変更トリガー表（W2に一緒に記入）</h2>
+    <p class="sec-lead">「感覚」ではなく「数値」で変更を発動するための表。W2の診断結果をもとに、この場のメンバーで数値を決めます。</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:28%;">変更候補</th><th style="width:34%;">発動条件（数値）</th><th>変更内容の案</th></tr></thead>
+        <tbody>
+          <tr><td class="row-label">予約枠の時間設定</td><td class="cell-fill">例：待ち時間◯分超が週◯回</td><td class="cell-fill"></td></tr>
+          <tr><td class="row-label">トリアージ基準の明文化</td><td class="cell-fill"></td><td class="cell-fill"></td></tr>
+          <tr><td class="row-label">シフト再設計</td><td class="cell-fill">例：1日◯名超が◯週連続</td><td class="cell-fill"></td></tr>
+          <tr><td class="row-label">人員追加（採用）</td><td class="cell-fill"></td><td class="cell-fill"></td></tr>
+          <tr><td class="row-label">オペ日のスクラブ介助追加</td><td class="cell-fill">例：1枠の予約◯件以上</td><td class="cell-fill"></td></tr>
+          <tr><td class="row-label">（追加枠）</td><td class="cell-fill"></td><td class="cell-fill"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <span>JMA PMI Playbook — P0起動パック ⑭</span>
+    <span>PMI_キックオフパック_テンプレート_v0.1 — 2026.07.02</span>
+  </footer>
+
+</div>
+</body>
+</html>
