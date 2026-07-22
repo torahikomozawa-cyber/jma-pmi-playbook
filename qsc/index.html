@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QSCチェック表 v1.3 — 眼科クリニック（受付・予約・電話・患者対応）</title>
+<style>
+  :root {
+    --crimson: #8B1A10;
+    --crimson-dark: #6B1208;
+    --off-white: #FAF6F1;
+    --paper: #FDFBF7;
+    --yellow-soft: #FFF4B8;
+    --green-accent: #2D6A4F;
+    --green-soft: #D8E8E0;
+    --blue-accent: #1E5A8A;
+    --blue-soft: #E3EEF7;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --line: #D9D2C7;
+    --line-soft: #ECE6DC;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { font-size: 15px; }
+  body {
+    font-family: "Yu Gothic", "游ゴシック", "YuGothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    background: var(--off-white);
+    color: var(--ink);
+    line-height: 1.7;
+    margin: 0;
+    font-feature-settings: "palt";
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 16px 90px;
+    background: var(--paper);
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .doc-header { border-bottom: 3px solid var(--crimson); padding-bottom: 18px; margin-bottom: 20px; }
+  .doc-meta {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+    font-family: "Cambria", "Georgia", serif;
+    font-size: 0.75rem; color: var(--ink-soft);
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .doc-meta .badge { background: var(--crimson); color: var(--paper); padding: 2px 10px; letter-spacing: 0.1em; }
+  h1 {
+    font-family: "Yu Mincho", "游明朝", "Cambria", "Georgia", serif;
+    font-size: 1.5rem; font-weight: 600; line-height: 1.35; margin: 0 0 6px;
+  }
+  h1 .accent { color: var(--crimson); }
+  .doc-subtitle { font-size: 0.85rem; color: var(--ink-soft); margin: 0; }
+
+  /* 記入欄 */
+  .meta-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 16px 0 6px; }
+  .meta-inputs label { font-size: 0.72rem; color: var(--ink-soft); display: block; margin-bottom: 2px; letter-spacing: 0.05em; }
+  .meta-inputs input, .meta-inputs select {
+    width: 100%; padding: 8px; border: 1px solid var(--line); background: var(--off-white);
+    font-family: inherit; font-size: 0.9rem;
+  }
+
+  /* 凡例 */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+    background: var(--off-white); border: 1px solid var(--line);
+    padding: 10px 14px; margin: 14px 0 22px; font-size: 0.78rem;
+  }
+  .legend .mark { font-weight: 700; margin-right: 3px; }
+  .legend .m-ok { color: var(--green-accent); }
+  .legend .m-mid { color: #B8860B; }
+  .legend .m-ng { color: var(--crimson); }
+  .legend .hint { color: var(--ink-soft); width: 100%; }
+
+  /* セクション */
+  section { margin-bottom: 26px; }
+  .sec-head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+    border-left: 5px solid var(--crimson); padding-left: 12px; margin-bottom: 10px;
+  }
+  h2 {
+    font-family: "Yu Mincho", "游明朝", "Cambria", serif;
+    font-size: 1.12rem; font-weight: 600; margin: 0;
+  }
+  h2 .section-num { font-family: "Cambria", "Georgia", serif; color: var(--crimson); font-size: 0.9em; margin-right: 8px; }
+  .sec-score { font-family: "Cambria", "Georgia", serif; font-size: 0.82rem; color: var(--ink-soft); white-space: nowrap; }
+  .sec-lead { font-size: 0.82rem; color: var(--ink-soft); margin: 0 0 10px; }
+
+  /* チェック項目 */
+  .check-item {
+    display: flex; align-items: stretch; gap: 0;
+    border: 1px solid var(--line-soft); border-left: 3px solid var(--line);
+    background: var(--paper); margin-bottom: 6px;
+  }
+  .check-item .qsc {
+    flex: 0 0 34px; display: flex; align-items: center; justify-content: center;
+    font-family: "Cambria", "Georgia", serif; font-weight: 700; font-size: 0.82rem;
+  }
+  .qsc.q { background: var(--blue-soft); color: var(--blue-accent); }
+  .qsc.s { background: var(--green-soft); color: var(--green-accent); }
+  .qsc.c { background: var(--yellow-soft); color: #8A6B00; }
+  .check-item .txt { flex: 1 1 auto; padding: 9px 12px; font-size: 0.86rem; }
+  .check-item .txt small { display: block; color: var(--ink-soft); font-size: 0.74rem; margin-top: 1px; }
+  .check-item .toggle {
+    flex: 0 0 58px; display: flex; align-items: center; justify-content: center;
+    border-left: 1px solid var(--line-soft); cursor: pointer; user-select: none;
+    font-size: 1.15rem; font-weight: 700; color: #B9B2A6;
+  }
+  .check-item .toggle:focus-visible { outline: 2px solid var(--crimson); outline-offset: -2px; }
+  .check-item[data-state="2"] { border-left-color: var(--green-accent); }
+  .check-item[data-state="2"] .toggle { color: var(--green-accent); background: var(--green-soft); }
+  .check-item[data-state="1"] { border-left-color: #C49B00; }
+  .check-item[data-state="1"] .toggle { color: #8A6B00; background: var(--yellow-soft); }
+  .check-item[data-state="0"] { border-left-color: var(--crimson); }
+  .check-item[data-state="0"] .toggle { color: var(--crimson); background: #F3DEDB; }
+
+  /* 集計バー */
+  .score-bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    background: var(--crimson-dark); color: var(--paper);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 18px; font-size: 0.85rem; z-index: 10;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+  }
+  .score-bar .total { font-family: "Cambria", "Georgia", serif; font-size: 1.25rem; font-weight: 700; }
+  .score-bar .total .unit { font-size: 0.8rem; opacity: 0.85; margin-left: 2px; }
+  .score-bar button {
+    background: var(--paper); color: var(--crimson-dark); border: none;
+    padding: 7px 14px; font-family: inherit; font-weight: 700; font-size: 0.8rem; cursor: pointer;
+  }
+
+  /* メモ */
+  .memo-area { margin-top: 24px; }
+  .memo-area label { font-size: 0.78rem; color: var(--ink-soft); display: block; margin-bottom: 4px; }
+  .memo-area textarea {
+    width: 100%; min-height: 90px; padding: 10px; border: 1px solid var(--line);
+    background: var(--off-white); font-family: inherit; font-size: 0.88rem; resize: vertical;
+  }
+
+  .note {
+    background: var(--off-white); border-left: 3px solid var(--ink-soft);
+    padding: 10px 14px; font-size: 0.78rem; color: var(--ink-soft); margin: 20px 0;
+  }
+
+  footer {
+    margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line);
+    font-family: "Cambria", "Georgia", serif; font-size: 0.72rem; color: var(--ink-soft);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;
+  }
+
+  /* 眼科名入力欄 */
+  .clinic-name-input {
+    font-family: "Yu Mincho", "游明朝", "Cambria", "Georgia", serif;
+    font-size: 1.5rem; font-weight: 600;
+    border: none; border-bottom: 2px solid var(--line);
+    background: transparent; color: var(--ink);
+    width: 46%; min-width: 160px; padding: 0 2px 2px;
+  }
+  .clinic-name-input:focus { outline: none; border-bottom-color: var(--crimson); }
+  .clinic-name-input::placeholder { color: #C4BCAE; }
+
+  /* 評価サマリー */
+  .summary-panel {
+    border: 1px solid var(--line); border-top: 4px solid var(--crimson);
+    background: var(--paper); margin: 0 0 24px;
+  }
+  .summary-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 16px 18px; border-bottom: 1px solid var(--line-soft);
+    background: var(--off-white);
+  }
+  .summary-head .sh-label {
+    font-family: "Cambria", "Georgia", serif; font-size: 0.72rem;
+    letter-spacing: 0.15em; color: var(--crimson); text-transform: uppercase;
+  }
+  .summary-head .sh-main { display: flex; align-items: baseline; gap: 12px; }
+  .summary-head .sh-pct {
+    font-family: "Cambria", "Georgia", serif;
+    font-size: 2.4rem; font-weight: 700; line-height: 1; color: var(--ink);
+  }
+  .summary-head .sh-pct .unit { font-size: 1rem; color: var(--ink-soft); margin-left: 2px; }
+  .grade-badge {
+    font-family: "Cambria", "Georgia", serif; font-weight: 700;
+    font-size: 1.05rem; padding: 4px 14px; color: var(--paper);
+    background: #B9B2A6; white-space: nowrap;
+  }
+  .grade-badge.g-a { background: var(--green-accent); }
+  .grade-badge.g-b { background: var(--blue-accent); }
+  .grade-badge.g-c { background: #C49B00; }
+  .grade-badge.g-d { background: var(--crimson); }
+  .summary-rows { padding: 12px 18px 16px; }
+  .sum-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
+  .sum-row .sr-name { flex: 0 0 118px; font-size: 0.8rem; }
+  .sum-row .sr-bar-wrap {
+    flex: 1 1 auto; height: 12px; background: var(--line-soft); position: relative;
+  }
+  .sum-row .sr-bar {
+    height: 100%; width: 0%; background: var(--crimson);
+    transition: width 0.25s ease;
+  }
+  .sum-row .sr-bar.b-good { background: var(--green-accent); }
+  .sum-row .sr-bar.b-mid { background: #C49B00; }
+  .sum-row .sr-pct {
+    flex: 0 0 76px; text-align: right;
+    font-family: "Cambria", "Georgia", serif; font-size: 0.8rem; color: var(--ink-soft);
+  }
+  .summary-note {
+    padding: 0 18px 12px; font-size: 0.7rem; color: var(--ink-soft);
+    font-family: "Cambria", "Georgia", serif; letter-spacing: 0.03em;
+  }
+
+  @media print {
+    .score-bar { position: static; box-shadow: none; }
+    .score-bar button { display: none; }
+    .container { padding: 12px; }
+    .check-item .toggle { border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="doc-header">
+    <div class="doc-meta">
+      <span class="badge">JMA PMI Playbook / 現場オペレーション</span>
+      <span>v1.3 — 2026.07</span>
+    </div>
+    <h1><input type="text" id="clinic-name" class="clinic-name-input" placeholder="○○眼科"> <span class="accent">QSCチェック表</span></h1>
+    <p class="doc-subtitle">受付・予約・電話・患者対応・院内環境｜巡回チェック用（タップで ○→△→× 切替、自動集計）</p>
+
+    <div class="meta-inputs">
+      <div>
+        <label>実施日</label>
+        <input type="date" id="chk-date">
+      </div>
+      <div>
+        <label>記入者</label>
+        <input type="text" id="chk-name" placeholder="氏名">
+      </div>
+      <div>
+        <label>時間帯</label>
+        <select id="chk-slot">
+          <option>午前</option>
+          <option>午後</option>
+          <option>終日</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="legend">
+    <span><span class="mark m-ok">○</span>できている（2点）</span>
+    <span><span class="mark m-mid">△</span>一部不十分（1点）</span>
+    <span><span class="mark m-ng">×</span>できていない（0点）</span>
+    <span>｜ <strong>Q</strong>=品質・正確性 <strong>S</strong>=接遇・サービス <strong>C</strong>=清潔・環境</span>
+    <span class="hint">※ 評価欄をタップすると ○→△→×→未評価 の順に切り替わります。ページを閉じると入力は消えるため、記録は印刷（PDF保存）またはスクリーンショットで残してください。</span>
+  </div>
+
+  <!-- 評価サマリー -->
+  <div class="summary-panel">
+    <div class="summary-head">
+      <div>
+        <div class="sh-label">Result</div>
+        <div class="sh-main">
+          <span class="sh-pct"><span id="sum-total-pct">—</span><span class="unit">%</span></span>
+          <span class="grade-badge" id="sum-grade">未評価</span>
+        </div>
+      </div>
+      <div style="text-align:right; font-size:0.75rem; color:var(--ink-soft);" id="sum-detail">評価するとここに結果が表示されます</div>
+    </div>
+    <div class="summary-rows">
+      <div class="sum-row">
+        <span class="sr-name">01 受付</span>
+        <div class="sr-bar-wrap"><div class="sr-bar" data-sum-bar="reception"></div></div>
+        <span class="sr-pct" data-sum-pct="reception">—</span>
+      </div>
+      <div class="sum-row">
+        <span class="sr-name">02 予約管理</span>
+        <div class="sr-bar-wrap"><div class="sr-bar" data-sum-bar="reservation"></div></div>
+        <span class="sr-pct" data-sum-pct="reservation">—</span>
+      </div>
+      <div class="sum-row">
+        <span class="sr-name">03 電話対応</span>
+        <div class="sr-bar-wrap"><div class="sr-bar" data-sum-bar="phone"></div></div>
+        <span class="sr-pct" data-sum-pct="phone">—</span>
+      </div>
+      <div class="sum-row">
+        <span class="sr-name">04 患者対応</span>
+        <div class="sr-bar-wrap"><div class="sr-bar" data-sum-bar="patient"></div></div>
+        <span class="sr-pct" data-sum-pct="patient">—</span>
+      </div>
+      <div class="sum-row">
+        <span class="sr-name">05 院内環境</span>
+        <div class="sr-bar-wrap"><div class="sr-bar" data-sum-bar="cleanliness"></div></div>
+        <span class="sr-pct" data-sum-pct="cleanliness">—</span>
+      </div>
+    </div>
+    <div class="summary-note">A: 90%以上（良好水準）／ B: 75〜89%（概ね良好）／ C: 60〜74%（要改善）／ D: 60%未満（要指導・重点フォロー）</div>
+  </div>
+
+  <!-- 01 受付 -->
+  <section data-section="reception">
+    <div class="sec-head">
+      <h2><span class="section-num">01</span>受付（来院時対応）</h2>
+      <span class="sec-score" data-score-label>— / —</span>
+    </div>
+    <p class="sec-lead">最初の接点。挨拶と振り分け（トリアージ）の精度が回転と体験を決める。</p>
+
+    <div class="check-item" data-state="" data-pt="">
+      <div class="qsc s">S</div>
+      <div class="txt">来院した患者に即座に顔を上げ、「こんにちは」と明るく挨拶している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">保険証・マイナンバーカードの確認と資格確認を漏れなく実施している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">問診票の案内が全スタッフ同一手順で行われている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">症状の聞き取りから検査パターンへの振り分け（トリアージ）が正しく行われている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">受付時に待ち時間の目安を伝えている<small>体験目標：30分以内に診察・1時間以内に帰宅</small></div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">待たせてしまった際に「お待たせして申し訳ございません」の一言を添えている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">受付カウンターに私物・書類の放置がなく、整頓されている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">患者が使う筆記具・バインダーが清潔に保たれている（定期清拭）</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+  </section>
+
+  <!-- 02 予約管理 -->
+  <section data-section="reservation">
+    <div class="sec-head">
+      <h2><span class="section-num">02</span>予約管理</h2>
+      <span class="sec-score" data-score-label>— / —</span>
+    </div>
+    <p class="sec-lead">予約リストの事前確認と再来予約の取り切りが軸。</p>
+
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">当日の予約リストを診療開始前に確認し、全スタッフで共有している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">予約患者と飛び込み患者の受付順ルールが決まっており、全員が同じ運用をしている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">再来予約は「医師が診察時に伝える→受付で即時取得」の流れが徹底されている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">手術相談・術前検査の患者を通常診療と区別し、適切な枠・日程に振り分けている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+  </section>
+
+  <!-- 03 電話対応 -->
+  <section data-section="phone">
+    <div class="sec-head">
+      <h2><span class="section-num">03</span>電話対応</h2>
+      <span class="sec-score" data-score-label>— / —</span>
+    </div>
+    <p class="sec-lead">電話の品質＝集患の品質。</p>
+
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">3コール以内に応答し、クリニック名を名乗っている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">症状の緊急度を聞き取り、強い痛み・急激な視力低下は当日来院を案内している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">日時・氏名・連絡先を復唱して確認している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">保留は30秒以内を目安とし、長引く場合は折り返しを提案している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">アクセス・持ち物（保険証・お薬手帳・使用中の眼鏡やコンタクト）を案内できる</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+  </section>
+
+  <!-- 04 患者対応 -->
+  <section data-section="patient">
+    <div class="sec-head">
+      <h2><span class="section-num">04</span>患者対応（診察前後・会計・見送り）</h2>
+      <span class="sec-score" data-score-label>— / —</span>
+    </div>
+    <p class="sec-lead">院内での体験全体。接客ワードの統一と会計時の次回予約声がけが要点。</p>
+
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">呼び出しは明瞭に、語尾を伸ばさずはきはきとした印象で行い、高齢の方には近づいて声がけしている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">次のご案内に移る時に、「お待たせしました」の声を必ずかけている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">散瞳の待機時間（約20分）など、待ちの理由と目安を説明している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">散瞳後の見えづらさ・運転への注意を、帰宅前に口頭で説明している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">会計金額の確認・処方箋の渡し忘れ防止のダブルチェックが行われている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">会計時に次回来院・予約の声がけをしている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc s">S</div>
+      <div class="txt">見送りの言葉が「お大事にどうぞ」「お大事になさってください」で統一され、受付のみでなく複数人で声をかけて送り出している</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc q">Q</div>
+      <div class="txt">滞在1時間を超えそうな患者に、状況説明の声がけができている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+  </section>
+
+  <!-- 05 院内環境 -->
+  <section data-section="cleanliness">
+    <div class="sec-head">
+      <h2><span class="section-num">05</span>院内環境（C）</h2>
+      <span class="sec-score" data-score-label>— / —</span>
+    </div>
+    <p class="sec-lead">診療開始前に確認。清潔感は院の第一印象と信頼に直結する。</p>
+
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">待合室の椅子・床にゴミ・汚れがない（診療開始前に確認）</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">トイレの清掃・備品補充（ペーパー・石けん）がされている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">検査機器のあご台・額当てが患者ごとに清拭されている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">院内掲示物に破れ・古い情報がない（診療案内が最新の内容）</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+    <div class="check-item" data-state="">
+      <div class="qsc c">C</div>
+      <div class="txt">入口ガラス・看板が清潔で、診療時間表示が最新の内容になっている</div>
+      <div class="toggle" role="button" tabindex="0" aria-label="評価切替">—</div>
+    </div>
+  </section>
+
+  <div class="memo-area">
+    <label>気づき・申し送り（×／△の項目は理由と改善アクションを記入）</label>
+    <textarea placeholder="例：昼のピーク帯に電話が受付1名対応で3コール超過。診療開始前の役割分担を再設計する。"></textarea>
+  </div>
+
+  <div class="note">
+    <strong>運用ルール（案）｜</strong>週1回の巡回チェック（事務長または現場リーダー）＋ 診療開始前は「05 院内環境」のみ毎日実施。スコア85%未満のセクションは翌週の朝礼テーマに設定。結果はPDF保存して月次振り返りに添付。
+  </div>
+
+  <footer>
+    <span>JMA PMI Playbook — QSCチェック表</span>
+    <span>v1.3 / 全クリニック共通・汎用版</span>
+  </footer>
+
+</div>
+
+<div class="score-bar">
+  <div>
+    <span>総合スコア：</span>
+    <span class="total" id="total-score">—<span class="unit">%</span></span>
+    <span id="total-detail" style="opacity:0.8; font-size:0.75rem; margin-left:8px;"></span>
+  </div>
+  <button type="button" onclick="window.print()">印刷 / PDF保存</button>
+</div>
+
+<script>
+(function () {
+  var STATES = ["", "2", "1", "0"];           // 未評価 → ○ → △ → ×
+  var MARKS  = { "": "—", "2": "○", "1": "△", "0": "×" };
+
+  function cycle(item) {
+    var cur = item.getAttribute("data-state") || "";
+    var next = STATES[(STATES.indexOf(cur) + 1) % STATES.length];
+    item.setAttribute("data-state", next);
+    item.querySelector(".toggle").textContent = MARKS[next];
+    updateScores();
+  }
+
+  function gradeOf(pct) {
+    if (pct >= 90) return { key: "g-a", label: "A 良好水準" };
+    if (pct >= 75) return { key: "g-b", label: "B 概ね良好" };
+    if (pct >= 60) return { key: "g-c", label: "C 要改善" };
+    return { key: "g-d", label: "D 要指導" };
+  }
+
+  function updateScores() {
+    var totalGot = 0, totalMax = 0;
+    document.querySelectorAll("section[data-section]").forEach(function (sec) {
+      var key = sec.getAttribute("data-section");
+      var got = 0, max = 0, answered = 0, count = 0;
+      sec.querySelectorAll(".check-item").forEach(function (item) {
+        count++;
+        var st = item.getAttribute("data-state");
+        if (st !== "") { got += parseInt(st, 10); max += 2; answered++; }
+      });
+      var label = sec.querySelector("[data-score-label]");
+      var bar = document.querySelector("[data-sum-bar='" + key + "']");
+      var pctEl = document.querySelector("[data-sum-pct='" + key + "']");
+      if (max === 0) {
+        label.textContent = "未評価";
+        if (bar) { bar.style.width = "0%"; bar.className = "sr-bar"; }
+        if (pctEl) pctEl.textContent = "—";
+      } else {
+        var pct = Math.round(got / max * 100);
+        label.textContent = got + " / " + max + "（" + pct + "%）";
+        if (bar) {
+          bar.style.width = pct + "%";
+          bar.className = "sr-bar " + (pct >= 90 ? "b-good" : pct >= 75 ? "b-mid" : "");
+        }
+        if (pctEl) pctEl.textContent = pct + "%" + (answered < count ? " *" : "");
+      }
+      totalGot += got; totalMax += max;
+    });
+
+    var totalEl = document.getElementById("total-score");
+    var detailEl = document.getElementById("total-detail");
+    var sumPct = document.getElementById("sum-total-pct");
+    var sumGrade = document.getElementById("sum-grade");
+    var sumDetail = document.getElementById("sum-detail");
+    if (totalMax === 0) {
+      totalEl.innerHTML = "—<span class='unit'>%</span>";
+      detailEl.textContent = "";
+      sumPct.textContent = "—";
+      sumGrade.className = "grade-badge";
+      sumGrade.textContent = "未評価";
+      sumDetail.textContent = "評価するとここに結果が表示されます";
+    } else {
+      var tp = Math.round(totalGot / totalMax * 100);
+      totalEl.innerHTML = tp + "<span class='unit'>%</span>";
+      detailEl.textContent = "（" + totalGot + " / " + totalMax + "点）";
+      sumPct.textContent = tp;
+      var g = gradeOf(tp);
+      sumGrade.className = "grade-badge " + g.key;
+      sumGrade.textContent = g.label;
+      sumDetail.textContent = "得点 " + totalGot + " / " + totalMax + "点（* は未評価項目が残るセクション）";
+    }
+  }
+
+  document.querySelectorAll(".check-item .toggle").forEach(function (tg) {
+    var item = tg.closest(".check-item");
+    tg.addEventListener("click", function () { cycle(item); });
+    tg.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); cycle(item); }
+    });
+  });
+
+  // 実施日の初期値を今日に
+  var d = new Date();
+  document.getElementById("chk-date").value =
+    d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+})();
+</script>
+</body>
+</html>
